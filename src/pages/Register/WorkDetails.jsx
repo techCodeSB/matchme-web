@@ -2,7 +2,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { useState } from "react";
 
 
-const FamilyDetails = ({ next, back }) => {
+const WorkDetails = ({ next, back }) => {
     const [data, setData] = useState({
         eatingPref: ""
     })
@@ -18,69 +18,64 @@ const FamilyDetails = ({ next, back }) => {
                 <p className='text-xs text-gray-400'>experience</p>
             </div>
             <div className='w-[40%] flex flex-col gap-4 bg-white rounded-2xl shadow-2xl p-8'>
-                <h1 className='reg__title'>Family Details</h1>
+                <h1 className='reg__title'>Work Details</h1>
+
 
                 <div className='input__field mt-3'>
-                    <p>Father's Name</p>
-                    <input type="text"
-                        placeholder="Enter Your Father's Name"
-                    />
-                </div>
-                <div className='input__field'>
-                    <p>Father's Occupation</p>
+                    <p>Nature of Work</p>
                     <select>
                         <option value="">Select</option>
                         <option value="am">Business</option>
                         <option value="pm">Service</option>
                         <option value="pm">Profession</option>
-                        <option value="pm">N.a.</option>
                     </select>
                 </div>
                 <div className='input__field'>
-                    <p>Mother's Name</p>
+                    <p>Industry</p>
                     <input type="text"
-                        placeholder="Enter Your Mother's Name"
+                        placeholder="Enter Industry"
                     />
                 </div>
                 <div className='input__field'>
-                    <p>Mother's Occupation</p>
-                    <select>
-                        <option value="">Select</option>
-                        <option value="am">Business</option>
-                        <option value="pm">Service</option>
-                        <option value="pm">Profession</option>
-                        <option value="pm">Homemaker</option>
-                        <option value="pm">N.a.</option>
-                    </select>
-                </div>
-                <div className='input__field'>
-                    <p>No of Siblings</p>
-                    <select>
-                        <option value="">Select</option>
-                        <option value="am">0</option>
-                        <option value="pm">1</option>
-                        <option value="pm">2</option>
-                        <option value="pm">3</option>
-                        <option value="pm">3+</option>
-                    </select>
-                </div>
-                <div className='input__field'>
-                    <p>Home Town</p>
+                    <p>Organization</p>
                     <input type="text"
-                        placeholder="Enter Your Home Town"
+                        placeholder="Enter Organization"
                     />
                 </div>
                 <div className='input__field'>
-                    <p>Family Background</p>
+                    <p>Your Designation</p>
+                    <input type="text"
+                        placeholder="Enter Your Your Designation"
+                    />
+                </div>
+                <div className='input__field'>
+                    <p>Personal Anual Income</p>
                     <select>
                         <option value="">Select</option>
-                        <option value="am">Business owners</option>
-                        <option value="pm">Goverment employees</option>
-                        <option value="pm">Private employees</option>
-                        <option value="pm">Self-employed</option>
-                        <option value="pm">Retired</option>
-                        <option value="pm">Others</option>
+                        <option value="am">Under 10 Lakhs</option>
+                        <option value="pm">10 Lakhs and Above</option>
+                        <option value="pm">20 Lakhs and Above</option>
+                        <option value="pm">30 Lakhs and Above</option>
+                        <option value="pm">50 Lakhs and Above</option>
+                        <option value="pm">60 Lakhs and Above</option>
+                        <option value="pm">70 Lakhs and Above</option>
+                        <option value="pm">80 Lakhs and Above</option>
+                        <option value="pm">90 Lakhs and Above</option>
+                        <option value="pm">1 Cr and Above</option>
+                        <option value="pm">5 Cr and Above</option>
                     </select>
+                </div>
+                <div className='input__field'>
+                    <p>Buisness Turnover</p>
+                    <input type="text"
+                        placeholder="Enter Buisness Turnover"
+                    />
+                </div>
+                <div className='input__field'>
+                    <p>Buisness Website</p>
+                    <input type="text"
+                        placeholder="Enter Buisness Website"
+                    />
                 </div>
 
                 <div className="flex items-center justify-between mt-5 gap-4">
@@ -99,4 +94,4 @@ const FamilyDetails = ({ next, back }) => {
     )
 }
 
-export default FamilyDetails
+export default WorkDetails;

@@ -6,7 +6,8 @@ body {
 
 :root {
     --field-color: #e9e8e7b1;
-    --grad-btn: linear-gradient(to right, #740505, #b50505, #740505);
+    --grad-btn: linear-gradient(to right, #740505, #d11717, #740505);
+    --primary: #2B6969;
 }
 
 .login_main {
@@ -21,7 +22,8 @@ body {
     font-size: 13px;
 }
 
-.input__field input {
+.input__field input,
+textarea {
     background-color: var(--field-color);
     width: 100%;
     padding: 12px 10px;
@@ -42,18 +44,15 @@ body {
     color: white;
     background: var(--grad-btn);
     font-weight: bold;
-    cursor: pointer;    
+    cursor: pointer;
     background-size: 200% 100%;
     background-position: left;
     transition: background-position 0.5s ease;
 }
 
-.grad__btn:hover{
+.grad__btn:hover {
     background-position: right;
 }
-
-
-
 
 .back__btn {
     @apply w-full text-red-600 cursor-pointer border rounded-3xl py-2;
@@ -145,23 +144,111 @@ select {
 .animate-slide-in {
     animation: slideIn 0.4s ease;
 }
-.reg__circle__left{
+
+.reg__circle__left {
     width: 150px;
     height: 150px;
-    background:radial-gradient(red, red, rgb(87, 6, 6));
+    background: radial-gradient(red, red, rgb(87, 6, 6));
     filter: blur(90px);
     position: absolute;
     left: -20px;
     top: 100px;
     border-radius: 100%;
 }
-.reg__circle__right{
+
+.reg__circle__right {
     width: 150px;
     height: 150px;
-    background:radial-gradient(red, red, rgb(87, 6, 6));
+    background: radial-gradient(red, red, rgb(87, 6, 6));
     filter: blur(90px);
     position: absolute;
     right: 0px;
     bottom: 0px;
     border-radius: 100%;
+}
+
+
+/* ==================================[Dashboard Start]============================ */
+/* =============================================================================== */
+.nav__link.active {
+    position: relative;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.nav__link.active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    border-radius: 3px;
+    background-color: var(--primary);
+}
+
+.dashboard__main {
+    min-height: calc(100vh - 60px);
+    @apply w-[90%] lg:w-[70%] mx-auto mt-5 mb-3
+}
+
+.dashboard__new__match {
+    background: linear-gradient(to bottom, #C9B398, #3a3937);
+    @apply px-10 py-12.5 w-full lg:w-[70%] rounded-[30px] min-h-87.5;
+}
+
+.dashboard__admin__choice {
+    background-color: var(--primary);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    @apply px-10 py-12.5 w-full lg:w-[30%] rounded-[30px] min-h-[380px]
+}
+
+.badge {
+    padding: 5px;
+    width: 100px;
+    border-radius: 30px;
+    color: black;
+    font-size: 12px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.gray-badge {
+    background-color: #B1EEED;
+}
+
+.viewnow__btn {
+    background: linear-gradient(to bottom, #2D6A6A, #1e4646);
+}
+
+.viewnow__btn:active {
+    background: linear-gradient(to bottom, #2D6A6A, #2D6A6A, #1e4646);
+}
+
+.navigation {
+    @apply w-full lg:w-[70%] grid grid-cols-2 lg:grid-cols-3 gap-4;
+}
+
+.navigation__menu {
+    background: linear-gradient(to bottom, #4eb3b3, #183838);
+    border-radius: 30px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    height: 150px;
+    cursor: pointer;
+}
+
+.navigation__menu:hover {
+    background: linear-gradient(to bottom, #437272,  #1e4646);
+}
+
+.navigation__menu svg {
+    font-size: 30px;
 }

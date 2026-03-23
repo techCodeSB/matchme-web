@@ -19,7 +19,7 @@ const Login = () => {
         <>
             <LoginNav />
             <main className='login_main'>
-                <div className='flex items-stretch w-[90%] lg:w-[70%] bg-white shadow-lg rounded-3xl overflow-hidden'>
+                <div className='flex items-stretch w-[90%] lg:w-[65%] bg-white shadow-lg rounded-3xl overflow-hidden'>
                     {/* Image */}
                     <div className='hidden lg:flex login_side__bg'>
                         <h1>Find the one</h1>
@@ -28,7 +28,7 @@ const Login = () => {
                         <p>value depth.</p>
                     </div>
                     {/* Login form */}
-                    <div className='w-full p-10 lg:px-20'>
+                    <div className='w-full p-7 '>
                         <h1 className='text-2xl font-bold'>Welcome Back</h1>
                         <p className='text-gray-500 text-xs'>Enter your details to continue your journey.</p>
 
@@ -54,9 +54,9 @@ const Login = () => {
                                 <FaArrowRight className="inline ml-1" />
                             </button>
                         </form>
-                        <p className='mt-5 text-slate-500 text-xs text-center font-semibold'>
+                        {/* <p className='mt-5 text-slate-500 text-xs text-center font-semibold'>
                             New to Matchme? <Link to="/signup" className="underline">Create an account</Link>
-                        </p>
+                        </p> */}
                     </div>
                 </div>
             </main>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const PersonalInfo1 = ({next}) => {
+const PersonalInfo1 = ({ next }) => {
 
 
     return (
