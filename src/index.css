@@ -1,0 +1,167 @@
+@import "tailwindcss";
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --field-color: #e9e8e7b1;
+    --grad-btn: linear-gradient(to right, #740505, #b50505, #740505);
+}
+
+.login_main {
+    width: 100%;
+    min-height: calc(100vh - 60px);
+    display: grid;
+    place-items: center;
+    background-color: #FAF9F8;
+}
+
+.input__field p {
+    font-size: 13px;
+}
+
+.input__field input {
+    background-color: var(--field-color);
+    width: 100%;
+    padding: 12px 10px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    font-size: 12px;
+    color: #6a7282
+}
+
+.grad__btn {
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    border: none;
+    border-radius: 30px;
+    font-size: 15px;
+    color: white;
+    background: var(--grad-btn);
+    font-weight: bold;
+    cursor: pointer;    
+    background-size: 200% 100%;
+    background-position: left;
+    transition: background-position 0.5s ease;
+}
+
+.grad__btn:hover{
+    background-position: right;
+}
+
+
+
+
+.back__btn {
+    @apply w-full text-red-600 cursor-pointer border rounded-3xl py-2;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.back__btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--grad-btn);
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+    z-index: -1;
+}
+
+.back__btn:hover::after {
+    transform: translateX(0);
+}
+
+.back__btn:hover {
+    color: white;
+}
+
+.login_side__bg {
+    background-image: url(login_couple.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    flex-direction: column;
+    justify-content: end;
+    padding: 10px 20px;
+}
+
+.side__bg {
+    background-image: url(login_couple.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 270px;
+    height: 300px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 7px rgb(108, 107, 107);
+}
+
+.login_side__bg h1 {
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+}
+
+.login_side__bg p {
+    color: rgb(196, 194, 194);
+    font-size: 13px;
+}
+
+
+.reg__title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+select {
+    background-color: var(--field-color);
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 13px;
+    color: #3c3c3c
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-slide-in {
+    animation: slideIn 0.4s ease;
+}
+.reg__circle__left{
+    width: 150px;
+    height: 150px;
+    background:radial-gradient(red, red, rgb(87, 6, 6));
+    filter: blur(90px);
+    position: absolute;
+    left: -20px;
+    top: 100px;
+    border-radius: 100%;
+}
+.reg__circle__right{
+    width: 150px;
+    height: 150px;
+    background:radial-gradient(red, red, rgb(87, 6, 6));
+    filter: blur(90px);
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    border-radius: 100%;
+}
