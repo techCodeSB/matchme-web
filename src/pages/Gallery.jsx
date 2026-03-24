@@ -1,0 +1,80 @@
+import { useState } from "react";
+import { FaArrowLeft } from "react-icons/fa6";
+import { MdOutlineAddAPhoto } from "react-icons/md";
+import { RiAddLine } from "react-icons/ri";
+
+const Gallery = ({ next, back }) => {
+    const selectedType = ['png', 'jpg', 'jpeg'];
+    const [data, setData] = useState({
+        first: "", second: "", thrid: "", fourth: '', five: ""
+    })
+
+    const handleUpload = async (which) => {
+        const [fileHandle] = await window.showOpenFilePicker();
+        const file = await fileHandle.getFile();
+        const fileType = file.type.split("/")[1]
+        if(!selectedType.includes(fileType)) {
+            alert("Invalid file type Allow:[jpg, png, jpeg] only");
+            return;
+        };
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function(){
+            const allData = {...data};
+            allData[which] = reader.result;
+            setData({...allData});
+        }
+        
+    }
+
+    return (
+        <>
+            <h1 className="text-2xl font-bold mt-4">Your Gallery</h1>
+            <p className="text-xs w-62.5 lg:w-full text-center">A glimpse into your world. Please upload 5 photos that capture your true self.</p>
+            <div className='w-[80%] md:w-[60%] flex flex-col lg:flex-row items-center gap-4 overflow-hidden p-4 animate-slide-in mt-5'>
+                <div className="main__photo relative" onClick={()=>handleUpload('first')}>
+                    {data.first && <img src={data.first} className="absolute top-0 left-0 w-full h-full" />}
+                    <div className="w-10 h-10 rounded-full bg-red-100 grid place-items-center">
+                        <MdOutlineAddAPhoto className="text-red-700 " size={20} />
+                    </div>
+                    <h1 className="mt-2 font-bold text-lg">Main Portrait</h1>
+                    <p className="text-xs text-gray-500 w-50 text-center mt-2">This is the first photo others will see. Make it count.</p>
+                </div>
+                <div className="all__photo">
+                    <div onClick={()=>handleUpload('second')}>
+                        {data.second && <img src={data.second} className="absolute top-0 left-0 w-full h-full" />}
+                        <p className="photo__num__badge">1</p>
+                        <RiAddLine />
+                    </div>
+                    <div onClick={()=>handleUpload('thrid')}>
+                        {data.thrid && <img src={data.thrid} className="absolute top-0 left-0 w-full h-full" />}
+                        <p className="photo__num__badge">2</p>
+                        <RiAddLine />
+                    </div>
+                    <div onClick={()=>handleUpload('fourth')}>
+                        {data.fourth && <img src={data.fourth} className="absolute top-0 left-0 w-full h-full" />}
+                        <p className="photo__num__badge">3</p>
+                        <RiAddLine />
+                    </div>
+                    <div onClick={()=>handleUpload('five')}>
+                        {data.five && <img src={data.five} className="absolute top-0 left-0 w-full h-full" />}
+                        <p className="photo__num__badge">4</p>
+                        <RiAddLine />
+                    </div>
+                </div>
+            </div>
+            <div className="flex items-center justify-between mt-5 gap-4 w-[80%] md:w-[30%] my-4">
+                <button className="back__btn" onClick={back}>
+                    <FaArrowLeft className="inline mr-1" />
+                    Back
+                </button>
+                <button className='grad__btn' onClick={next}>
+                    Continue
+                </button>
+            </div>
+        </>
+    )
+}
+
+export default Gallery

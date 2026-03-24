@@ -1,68 +1,145 @@
+import { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 
 
-const PersonalInfo2 = ({next, back}) => {
+const PersonalInfo2 = ({ next, back }) => {
+    const [error, setError] = useState({});
+    const [data, setData] = useState({
+        country: '', city: '', locality: '', nationality: '',
+        community: '', medical: '', religious: ''
+    })
+
+
+
+    const handleContinue = async () => {
+        const newErrors = {};
+
+        Object.keys(data).map((k, i) => {
+            if (data[k] === "") {
+                newErrors[k] = true;
+                return;
+            }
+        })
+        setError((prev) => ({
+            ...prev,
+            ...newErrors
+        }));
+        if (Object.keys(newErrors).length > 0) return;
+
+        try {
+            next();
+
+        } catch (err) {
+            return alert("Something went wrong");
+        }
+    }
 
 
     return (
-        <div className='w-[80%] flex justify-center gap-8 overflow-hidden p-4 animate-slide-in'>
-            <div>
+        <div className='w-full lg:w-[80%] flex justify-center gap-8 overflow-hidden p-4 lg:p-0 animate-slide-in'>
+            <div className='hidden md:block'>
                 <div className='hidden lg:flex side__bg'>
                 </div>
                 <h1 className='text-xl text-gray-600 font-bold mt-2'>Tell us about you.</h1>
                 <p className='text-xs text-gray-400'>Let's build the foundation of your curated</p>
                 <p className='text-xs text-gray-400'>experience</p>
             </div>
-            <div className='w-[40%] flex flex-col gap-4 bg-white rounded-2xl shadow-2xl p-8'>
+            <div className='w-full lg:w-[40%] flex flex-col gap-4 bg-white rounded-2xl shadow-2xl p-8 mb-3'>
                 <h1 className='reg__title'>Personal Details</h1>
 
                 <div className='input__field mt-3'>
                     <p>Enter Country(current residency)</p>
                     <input type="text"
                         placeholder='Enter Your Country'
+                        value={data.country}
+                        onChange={(e) => {
+                            setData({ ...data, country: e.target.value });
+                            setError({ ...error, country: false });
+                        }}
                     />
+                    {error.country && <span className='error__text'>This field is required</span>}
                 </div>
                 <div className='input__field'>
                     <p>Enter City</p>
                     <input type="text"
                         placeholder='Enter Your City'
+                        value={data.city}
+                        onChange={(e) => {
+                            setData({ ...data, city: e.target.value });
+                            setError({ ...error, city: false });
+                        }}
                     />
+                    {error.city && <span className='error__text'>This field is required</span>}
                 </div>
                 <div className='input__field'>
                     <p>Enter Locality</p>
                     <input type="text"
                         placeholder='Enter Your Locality'
+                        value={data.locality}
+                        onChange={(e) => {
+                            setData({ ...data, locality: e.target.value });
+                            setError({ ...error, locality: false });
+                        }}
                     />
+                    {error.locality && <span className='error__text'>This field is required</span>}
                 </div>
                 <div className='input__field'>
                     <p>Select Nationality</p>
-                    <select>
+                    <select
+                        value={data.nationality}
+                        onChange={(e) => {
+                            setData({ ...data, nationality: e.target.value });
+                            setError({ ...error, nationality: false });
+                        }}
+                    >
                         <option value="">Select</option>
-                        <option value="india">Indian</option>
-                        <option value="female">Female</option>
-                        <option value="others">Others</option>
+                        <option value="Indian">Indian</option>
+                        <option value="NRI">NRI</option>
                     </select>
+                    {error.nationality && <span className='error__text'>This field is required</span>}
                 </div>
                 <div className='input__field'>
                     <p>Select Religion</p>
-                    <select>
+                    <select
+                        value={data.religious}
+                        onChange={(e) => {
+                            setData({ ...data, religious: e.target.value });
+                            setError({ ...error, religious: false });
+                        }}
+                    >
                         <option value="">Select</option>
-                        <option value="india">Hindu</option>
-                        <option value="female">Muslim</option>
-                        <option value="others">Sikh</option>
+                        <option value="Hindu">Hindu</option>
+                        <option value="Sikh">Sikh</option>
+                        <option value="Christian">Christian</option>
+                        <option value="Jain">Jain</option>
+                        <option value="Buddhist">Buddhist</option>
+                        <option value="Muslim">Muslim</option>
                     </select>
+                    {error.religious && <span className='error__text'>This field is required</span>}
                 </div>
                 <div className='input__field'>
                     <p>Enter Community Name(optional)</p>
                     <input type="text"
                         placeholder='Enter Your Community Name'
+                        value={data.community}
+                        onChange={(e) => {
+                            setData({ ...data, community: e.target.value });
+                            setError({ ...error, community: false });
+                        }}
                     />
+                    {error.community && <span className='error__text'>This field is required</span>}
                 </div>
                 <div className='input__field'>
                     <p>Enter Medical History</p>
                     <input type="text"
                         placeholder='Enter Your Medical History'
+                        value={data.medical}
+                        onChange={(e) => {
+                            setData({ ...data, medical: e.target.value });
+                            setError({ ...error, medical: false });
+                        }}
                     />
+                    {error.medical && <span className='error__text'>This field is required</span>}
                 </div>
 
                 <div className="flex items-center justify-between mt-5 gap-4">
@@ -70,7 +147,7 @@ const PersonalInfo2 = ({next, back}) => {
                         <FaArrowLeft className="inline mr-1" />
                         Back
                     </button>
-                    <button className='grad__btn' onClick={next}>
+                    <button className='grad__btn' onClick={handleContinue}>
                         Continue
                     </button>
                 </div>

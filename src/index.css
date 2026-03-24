@@ -2,6 +2,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
 }
 
 :root {
@@ -166,6 +167,11 @@ select {
     bottom: 0px;
     border-radius: 100%;
 }
+.error__text{
+    font-size: 11px;
+    color: tomato;
+    font-style: italic;
+}
 
 
 /* ==================================[Dashboard Start]============================ */
@@ -251,4 +257,81 @@ select {
 
 .navigation__menu svg {
     font-size: 30px;
+}
+
+.main__photo{
+   @apply w-full overflow-hidden;
+   background-color: white;
+   border: 3px dashed var(--field-color);
+   height: 350px;
+   padding: 10px;
+   box-shadow: 0px 0px 5px var(--field-color);
+   border-radius: 30px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   cursor: pointer;
+}
+.all__photo{
+   @apply w-full grid grid-cols-2 gap-4 overflow-hidden;
+   height: 350px;
+}
+.all__photo div{
+   box-shadow: inset 0px 0px 5px var(--field-color);
+   position: relative;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-radius: 30px;
+   padding: 10px;
+   cursor: pointer;
+   border: 2px dashed rgb(243, 242, 242);
+   overflow: hidden;
+}
+.photo__num__badge{
+    width: 25px;
+    height: 25px;
+    border-radius: 100%;
+    background-color: #FDFDFC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 12px;
+}
+.pref__system{
+    background-color: rgb(225, 225, 248);
+    border-start-start-radius: 30px;
+    border-start-end-radius: 30px;
+    border-end-end-radius: 30px;
+    padding:10px;
+    font-size: 13px;
+    color: rgb(85, 83, 83,03);
+    max-width: 70%;
+}
+.pref__user{
+    background-color: rgb(23, 23, 53);
+    border-start-start-radius: 30px;
+    border-end-start-radius: 30px;
+    border-end-end-radius: 30px;
+    padding:15px 20px;
+    font-size: 13px;
+    color:white;
+    max-width: 70%;
+}
+.pref__next{
+    background-color: white;
+    border-radius: 30px;
+    width: 80px;
+    padding: 5px;
+    color: black;
+    cursor: pointer;
+    margin-top: 15px;
+    float: right;
+}
+.pref__next:hover{
+    background-color: rgb(228, 223, 223);
 }

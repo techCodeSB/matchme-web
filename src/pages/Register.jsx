@@ -11,23 +11,27 @@ import LifeStyle2 from './Register/LifeStyle2'
 import LifeStyle3 from './Register/LifeStyle3'
 import LifeStyle4 from './Register/LifeStyle4'
 import LifeStyle5 from './Register/LifeStyle5'
+import Gallery from './Gallery'
+import Preferance from './Preferance'
 
 const Register = () => {
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(3);
 
     return (
         <>
-            <LoginNav register={true}/>
+            <LoginNav register={true} />
             <main className='login_main relative'>
                 <div className='reg__circle__left hidden lg:block'></div>
                 <div className='reg__circle__right hidden lg:block'></div>
                 {/* Steps */}
-                <div className='w-[30%] mx-auto flex items-center justify-between text-xs mt-6'>
-                    <p>Step {step} of 12</p>
-                    <p>Personal Info</p>
-                </div>
-                <div className='relative w-[30%] h-1.25 bg-gray-300 rounded-2xl overflow-hidden mx-auto mt-1 mb-2'>
-                    <div className='absolute w-[30%] h-1.25 bg-red-500 rounded-2xl'></div>
+                <div className='flex flex-col gap-2 w-full mt-6 mb-6'>
+                    <div className='w-[70%] lg:w-[30%] mx-auto flex items-center justify-between text-xs'>
+                        <p>Step {step} of 12</p>
+                        <p>Personal Info</p>
+                    </div>
+                    <div className='relative w-[70%] lg:w-[30%] h-1.25 bg-gray-300 rounded-2xl overflow-hidden mx-auto'>
+                        <div className='absolute w-[70%] lg:w-[30%] h-1.25 bg-red-500 rounded-2xl'></div>
+                    </div>
                 </div>
 
                 {/* Main form */}
@@ -89,6 +93,18 @@ const Register = () => {
                 {step === 11 && (
                     <LifeStyle5
                         next={() => setStep(12)}
+                        back={() => setStep(step - 1)}
+                    />
+                )}
+                {step === 12 && (
+                    <Gallery
+                        next={() => setStep(13)}
+                        back={() => setStep(step - 1)}
+                    />
+                )}
+                {step === 13 && (
+                    <Preferance
+                        next={() => setStep(14)}
                         back={() => setStep(step - 1)}
                     />
                 )}

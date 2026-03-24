@@ -12,7 +12,8 @@ const Nav = ({ active }) => {
                 <div className='items-center gap-8 text-[13px] hidden lg:flex'>
                     <Link to={"/"} className={`nav__link ${active === 1 ? 'active' : ''}`}>Discover</Link>
                     <Link to={"/"} className={`nav__link ${active === 2 ? 'active' : ''}`}>Messages</Link>
-                    <Link to={"/"} className={`nav__link ${active === 3 ? 'active' : ''}`}>My Profile</Link>
+                    <Link to={"/"} className={`nav__link ${active === 3 ? 'active' : ''}`}>My Profile</Link>                    
+                    <Link to={"/"} className={`nav__link ${active === 3 ? 'active' : ''}`}>Psychometric Test</Link>
                 </div>
                 <div>
                     <div>
