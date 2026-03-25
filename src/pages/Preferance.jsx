@@ -3,6 +3,8 @@ import { FaArrowLeft } from "react-icons/fa6";
 import 'animate.css';
 import { SbCheckGroup, SbCheckItem } from "../components/SbCheck";
 
+
+
 const incomes = [
     "Any",
     "Under 10 Lakhs",
@@ -41,17 +43,47 @@ const Preferance = ({ next, back }) => {
     const [selectRelegion, setSelectedRelegion] = useState([]);
 
 
+    const [error, setError] = useState(null);
     const [data, setData] = useState({
-        agePref: { from: '', to: '' }, height: "", education: "", familyBg: "",
-        personalIncome: "", marriageStatus: "", relegion: [], location: ""
+        "age_preference": { from: '', to: '' },
+        "height_preference": '',
+        "education_preference": '',
+        "family_background_preference": '',
+        "personal_income_preference": '',
+        "marriage_status_preference": '',
+        "religion_preference": [],
+        "preferred_location": '',
     })
+
+
+    const handleSave = async () => {
+        let newErrors = false;
+
+        Object.keys(data).map((k, i) => {
+            if (data[k] === "" && k !== "six") {
+                newErrors = true;
+                return;
+            }
+        })
+        setError(newErrors);
+        if (newErrors) return;
+
+        try {
+            next();
+
+        } catch (err) {
+            return alert("Something went wrong");
+        }
+    }
 
 
 
     return (
         <>
+            {error && <span className='error__text'>Please select all prefereances.</span>}
             <div className='w-[80%] md:w-[40%] bg-white shadow-xl rounded-xl flex flex-col
-            gap-4 overflow-hidden p-4 animate-slide-in'>
+                gap-4 overflow-hidden p-4 animate-slide-in'
+            >
                 <div className="pref__system self-start animate__animated animate__fadeInLeft">
                     Let’s get to know about your preferences for a suitable match !
                 </div>
@@ -81,7 +113,7 @@ const Preferance = ({ next, back }) => {
                         </select>
                         <select
                             onChange={(e) => {
-                                setToAge(e.target.value)
+                                setToAge(e.target.value);
                             }}
                             value={toAge}
                         >
@@ -98,11 +130,12 @@ const Preferance = ({ next, back }) => {
                     <button className="pref__next"
                         onClick={() => {
                             setData({
-                                ...data, agePref: {
+                                ...data, age_preference: {
                                     from: fromAge,
                                     to: toAge
                                 }
                             })
+                            setError(false);
                         }}
                     >
                         Next
@@ -110,7 +143,7 @@ const Preferance = ({ next, back }) => {
                 </div>
 
                 {
-                    data.agePref.from && data.agePref.to && (
+                    data.age_preference.from && data.age_preference.to && (
                         <>
                             <div className="pref__system self-start animate__animated animate__fadeInLeft">
                                 What is the minimum height preferred? (Height is a physical attribute that may or may not define your compatiblity)
@@ -143,7 +176,12 @@ const Preferance = ({ next, back }) => {
                                         }
                                     </select>
                                 </div>
-                                <button className="pref__next" onClick={() => setData({ ...data, height: `${heightFeet}.${heightInch}` })}>
+                                <button className="pref__next" onClick={() => {
+                                    if (!heightFeet || !heightInch) return;
+
+                                    setData({ ...data, height_preference: `${heightFeet}.${heightInch}` })
+                                    setError(false);
+                                }}>
                                     Next
                                 </button>
                             </div>
@@ -154,16 +192,13 @@ const Preferance = ({ next, back }) => {
 
                 {/* Qualification */}
                 {
-                    data.height && (
+                    data.height_preference && (
                         <>
                             <div className="pref__system self-start animate__animated animate__fadeInLeft">
                                 What is the preferred education qualification?
                             </div>
 
                             <div className="pref__user self-end animate__animated animate__fadeInRight">
-                                <div className="w-full flex justify-between text-xs">
-                                    <p className="text-center">Education</p>
-                                </div>
                                 <div className="w-full flex gap-5 mt-1">
                                     <select
                                         onChange={(e) => setEducation(e.target.value)}
@@ -181,7 +216,8 @@ const Preferance = ({ next, back }) => {
                                 </div>
                                 <button className="pref__next"
                                     onClick={() => {
-                                        setData({ ...data, education: education })
+                                        setData({ ...data, education_preference: education })
+                                        setError(false);
                                     }}
                                 >
                                     Next
@@ -192,9 +228,9 @@ const Preferance = ({ next, back }) => {
                 }
 
 
-                {/* Select Education */}
+                {/* Select education_preference */}
                 {
-                    data.education && (
+                    data.education_preference && (
                         <>
                             <div className="pref__system self-start animate__animated animate__fadeInLeft">
                                 Preferred family background?
@@ -218,7 +254,8 @@ const Preferance = ({ next, back }) => {
                                 </div>
                                 <button className="pref__next"
                                     onClick={() => {
-                                        setData({ ...data, familyBg: familyBg })
+                                        setData({ ...data, family_background_preference: familyBg })
+                                        setError(false);
                                     }}
                                 >
                                     Next
@@ -230,7 +267,7 @@ const Preferance = ({ next, back }) => {
 
                 {/* Income */}
                 {
-                    data.familyBg && (
+                    data.family_background_preference && (
                         <>
                             <div className="pref__system self-start animate__animated animate__fadeInLeft">
                                 What is the income preferred?
@@ -254,7 +291,8 @@ const Preferance = ({ next, back }) => {
                                 </div>
                                 <button className="pref__next"
                                     onClick={() => {
-                                        setData({ ...data, personalIncome: income })
+                                        setData({ ...data, personal_income_preference: income })
+                                        setError(false);
                                     }}
                                 >
                                     Next
@@ -266,7 +304,7 @@ const Preferance = ({ next, back }) => {
 
                 {/* Marital Status */}
                 {
-                    data.personalIncome && (
+                    data.personal_income_preference && (
                         <>
                             <div className="pref__system self-start animate__animated animate__fadeInLeft">
                                 What is the preferred marital status of your partner?
@@ -290,7 +328,8 @@ const Preferance = ({ next, back }) => {
                                 </div>
                                 <button className="pref__next"
                                     onClick={() => {
-                                        setData({ ...data, marriageStatus: income })
+                                        setData({ ...data, marriage_status_preference: maritalStatus })
+                                        setError(false);
                                     }}
                                 >
                                     Next
@@ -302,7 +341,7 @@ const Preferance = ({ next, back }) => {
 
                 {/* Relegion status */}
                 {
-                    data.marriageStatus && (
+                    data.marriage_status_preference && (
                         <>
                             <div className="pref__system self-start animate__animated animate__fadeInLeft">
                                 What is the relegions you are open to
@@ -329,7 +368,8 @@ const Preferance = ({ next, back }) => {
                                 </div>
                                 <button className="pref__next"
                                     onClick={() => {
-                                        setData({ ...data, relegion: selectRelegion })
+                                        setData({ ...data, religion_preference: selectRelegion })
+                                        setError(false);
                                     }}
                                 >
                                     Next
@@ -341,7 +381,7 @@ const Preferance = ({ next, back }) => {
 
                 {/* Select Location */}
                 {
-                    data.relegion.length > 0 && (
+                    data.religion_preference.length > 0 && (
                         <>
                             <div className="pref__system self-start animate__animated animate__fadeInLeft">
                                 What is the preferred location?
@@ -350,8 +390,11 @@ const Preferance = ({ next, back }) => {
                             <div className="pref__user self-end animate__animated animate__fadeInRight">
                                 <div className="w-full flex gap-5 mt-1">
                                     <select
-                                        onChange={(e) => setData({ ...data, location: e.target.value })}
-                                        value={data.location}
+                                        onChange={(e) => {
+                                            setData({ ...data, preferred_location: e.target.value })
+                                            setError(false);
+                                        }}
+                                        value={data.preferred_location}
                                     >
                                         <option value="">Select</option>
                                         {
@@ -374,8 +417,8 @@ const Preferance = ({ next, back }) => {
                     <FaArrowLeft className="inline mr-1" />
                     Back
                 </button>
-                <button className='grad__btn' onClick={next}>
-                    Continue
+                <button className='grad__btn' onClick={handleSave}>
+                    Save
                 </button>
             </div>
         </>

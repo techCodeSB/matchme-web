@@ -44,7 +44,7 @@ const PersonalInfo2 = ({ next, back }) => {
                 <p className='text-xs text-gray-400'>Let's build the foundation of your curated</p>
                 <p className='text-xs text-gray-400'>experience</p>
             </div>
-            <div className='w-full lg:w-[40%] flex flex-col gap-4 bg-white rounded-2xl shadow-2xl p-8 mb-3'>
+            <div className='reg__form'>
                 <h1 className='reg__title'>Personal Details</h1>
 
                 <div className='input__field mt-3'>

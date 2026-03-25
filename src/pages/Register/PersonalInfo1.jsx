@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 const PersonalInfo1 = ({ next }) => {
     const [error, setError] = useState({});
     const [data, setData] = useState({
-        fullName: '', nickName: '', gender: '', dob: '',
-        timeOfBirth: '', placeOfBirth: ''
+        full_name: '', nick_name: '', gender: '', dob: '',
+        birth_time: '', birth_place: ''
     })
 
 
@@ -41,32 +41,32 @@ const PersonalInfo1 = ({ next }) => {
                 <p className='text-xs text-gray-400'>Let's build the foundation of your curated</p>
                 <p className='text-xs text-gray-400'>experience</p>
             </div>
-            <div className='w-full lg:w-[40%] flex flex-col gap-4 bg-white rounded-2xl shadow-2xl p-8 mb-3'>
+            <div className='reg__form'>
                 <h1 className='reg__title'>Personal Details</h1>
 
                 <div className='input__field mt-3'>
                     <p>Full Name</p>
                     <input type="text"
                         placeholder='Enter Your Fullname'
-                        value={data.fullName}
+                        value={data.full_name}
                         onChange={(e) => {
-                            setData({ ...data, fullName: e.target.value });
-                            setError({ ...error, fullName: false });
+                            setData({ ...data, full_name: e.target.value });
+                            setError({ ...error, full_name: false });
                         }}
                     />
-                    {error.fullName && <span className='error__text'>This field is required</span>}
+                    {error.full_name && <span className='error__text'>This field is required</span>}
                 </div>
                 <div className='input__field'>
                     <p>Nick Name</p>
                     <input type="text"
                         placeholder='Enter Your Nickname'
-                        value={data.nickName}
+                        value={data.nick_name}
                         onChange={(e) => {
-                            setData({ ...data, nickName: e.target.value });
-                            setError({ ...error, nickName: false });
+                            setData({ ...data, nick_name: e.target.value });
+                            setError({ ...error, nick_name: false });
                         }}
                     />
-                    {error.nickName && <span className='error__text'>This field is required</span>}
+                    {error.nick_name && <span className='error__text'>This field is required</span>}
                 </div>
                 <div className='input__field'>
                     <p>Gender Identity</p>
@@ -129,10 +129,10 @@ const PersonalInfo1 = ({ next }) => {
                 <div className='input__field'>
                     <p>Date of Time</p>
                     <input type="time"
-                        value={data.timeOfBirth}
+                        value={data.birth_time}
                         onChange={(e) => {
-                            setData({ ...data, timeOfBirth: e.target.value });
-                            setError({ ...error, timeOfBirth: false });
+                            setData({ ...data, birth_time: e.target.value });
+                            setError({ ...error, birth_time: false });
                         }}
                     />
                     {/* <div className='w-full flex items-center gap-4'>
@@ -157,19 +157,19 @@ const PersonalInfo1 = ({ next }) => {
                             <option value="pm">PM</option>
                         </select>
                     </div> */}
-                    {error.timeOfBirth && <span className='error__text'>This field is required</span>}
+                    {error.birth_time && <span className='error__text'>This field is required</span>}
                 </div>
                 <div className='input__field'>
                     <p>Place of Birth</p>
                     <input type="text"
                         placeholder='Enter Your Place of Birth'
-                        value={data.placeOfBirth}
+                        value={data.birth_place}
                         onChange={(e) => {
-                            setData({ ...data, placeOfBirth: e.target.value });
-                            setError({ ...error, placeOfBirth: false });
+                            setData({ ...data, birth_place: e.target.value });
+                            setError({ ...error, birth_place: false });
                         }}
                     />
-                    {error.placeOfBirth && <span className='error__text'>This field is required</span>}
+                    {error.birth_place && <span className='error__text'>This field is required</span>}
                 </div>
                 <button className='grad__btn mt-5' onClick={handleContinue}>
                     Continue

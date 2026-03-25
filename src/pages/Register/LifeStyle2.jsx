@@ -3,8 +3,27 @@ import { FaArrowLeft } from 'react-icons/fa6'
 import { SbCheckGroup, SbCheckItem } from '../../components/SbCheck'
 
 const LifeStyle2 = ({ next, back }) => {
+    const [error, setError] = useState(null);
     const [data, setData] = useState([])
 
+
+    const handleContinue = async () => {
+        if (data.length < 1) {
+            setError(true);
+            return;
+        }
+        if (data.length < 5) {
+            setError("Select minimum 5 interest");
+            return;
+        }
+
+        try {
+            next();
+
+        } catch (err) {
+            return alert("Something went wrong");
+        }
+    }
 
     return (
         <div className='w-full lg:w-[80%] flex justify-center gap-8 overflow-hidden p-4 lg:p-0 animate-slide-in'>
@@ -15,7 +34,7 @@ const LifeStyle2 = ({ next, back }) => {
                 <p className='text-xs text-gray-400'>Let's build the foundation of your curated</p>
                 <p className='text-xs text-gray-400'>experience</p>
             </div>
-            <div className='w-full lg:w-[40%] flex flex-col gap-4 bg-white rounded-2xl shadow-2xl p-8'>
+            <div className='reg__form'>
                 <h1 className='reg__title'>Life Style</h1>
                 <h1 className=''>Select up to 5 interest</h1>
 
@@ -31,6 +50,7 @@ const LifeStyle2 = ({ next, back }) => {
                                 return [...prev, value];
                             }
                         });
+                        setError(false);
                     }}>
                         <SbCheckItem title="Music" value="Music" />
                         <SbCheckItem title="Literature" value="Literature" />
@@ -49,6 +69,9 @@ const LifeStyle2 = ({ next, back }) => {
                         <SbCheckItem title="Nature" value="Nature" />
                         <SbCheckItem title="Sprituality" value="Nature" />
                     </SbCheckGroup>
+                    {error && <span className='error__text'>
+                        {typeof (error) === "string" ? error : "This field is required"}
+                    </span>}
                 </div>
 
 
@@ -59,7 +82,7 @@ const LifeStyle2 = ({ next, back }) => {
                         <FaArrowLeft className="inline mr-1" />
                         Back
                     </button>
-                    <button className='grad__btn' onClick={next}>
+                    <button className='grad__btn' onClick={handleContinue}>
                         Continue
                     </button>
                 </div>

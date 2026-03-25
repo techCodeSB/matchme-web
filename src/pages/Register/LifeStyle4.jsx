@@ -4,9 +4,36 @@ import { FaArrowLeft } from 'react-icons/fa6'
 import { SbCheckGroup, SbCheckItem } from '../../components/SbCheck'
 
 const LifeStyle4 = ({ next, back }) => {
+    const [error, setError] = useState({});
     const [data, setData] = useState({
-        holidays: []
+        "prefered_social_event": "",
+        "whom_do_you_like_going_out_with": "",
+        "how_spiritual_are_you": "",
+        "how_religious_are_you": ""
     })
+
+    const handleContinue = async () => {
+        const newErrors = {};
+
+        Object.keys(data).map((k, i) => {
+            if (data[k] === "") {
+                newErrors[k] = true;
+                return;
+            }
+        })
+        setError((prev) => ({
+            ...prev,
+            ...newErrors
+        }));
+        if (Object.keys(newErrors).length > 0) return;
+
+        try {
+            next();
+
+        } catch (err) {
+            return alert("Something went wrong");
+        }
+    }
 
 
     return (
@@ -18,63 +45,82 @@ const LifeStyle4 = ({ next, back }) => {
                 <p className='text-xs text-gray-400'>Let's build the foundation of your curated</p>
                 <p className='text-xs text-gray-400'>experience</p>
             </div>
-            <div className='w-full lg:w-[40%] flex flex-col gap-4 bg-white rounded-2xl shadow-2xl p-8'>
+            <div className='reg__form'>
                 <h1 className='reg__title'>Life Style</h1>
 
                 <div className="text-[13px] mt-3">
                     <p className="mb-1">Do you like socialise?</p>
-                    <SbRadioGroup>
+                    <SbRadioGroup
+                        name={"socialise"}
+                        value={data.prefered_social_event}
+                        onChange={(v) => {
+                            setData({ ...data, prefered_social_event: v });
+                            setError({ ...error, prefered_social_event: false });
+                        }}
+                    >
                         <SbRadio title="Yes" value="Yes" />
                         <SbRadio title="Occasionally" value="Occasionally" />
                         <SbRadio title="No" value="No" />
                     </SbRadioGroup>
+                    {error.prefered_social_event && <span className='error__text'>
+                        This field is required
+                    </span>}
                 </div>
                 <div className="text-[13px]">
                     <p className="mb-1">Whom do you mostly go out with</p>
-                    <SbRadioGroup>
+                    <SbRadioGroup
+                        name={"mostgo"}
+                        value={data.whom_do_you_like_going_out_with}
+                        onChange={(v) => {
+                            setData({ ...data, whom_do_you_like_going_out_with: v });
+                            setError({ ...error, whom_do_you_like_going_out_with: false });
+                        }}
+                    >
                         <SbRadio title="With Family" value="With Family" />
                         <SbRadio title="With Friends" value="With Friends" />
                         <SbRadio title="Solo" value="Solo" />
                     </SbRadioGroup>
+                    {error.whom_do_you_like_going_out_with && <span className='error__text'>
+                        This field is required
+                    </span>}
                 </div>
                 <div className="text-[13px]">
                     <p className="mb-1">How Spritual you are?</p>
-                    <SbRadioGroup>
+                    <SbRadioGroup
+                        name={"spritual"}
+                        value={data.how_spiritual_are_you}
+                        onChange={(v) => {
+                            setData({ ...data, how_spiritual_are_you: v });
+                            setError({ ...error, how_spiritual_are_you: false });
+                        }}
+                    >
                         <SbRadio title="Not all" value="Not all" />
                         <SbRadio title="Little" value="Little" />
                         <SbRadio title="Moderate" value="Moderate" />
                         <SbRadio title="Very Spritual" value="Very Spritual" />
                     </SbRadioGroup>
+                    {error.how_spiritual_are_you && <span className='error__text'>
+                        This field is required
+                    </span>}
                 </div>
                 <div className="text-[13px]">
                     <p className="mb-1">How religious you are?</p>
-                    <SbRadioGroup>
+                    <SbRadioGroup
+                        name={"religious"}
+                        value={data.how_religious_are_you}
+                        onChange={(v) => {
+                            setData({ ...data, how_religious_are_you: v });
+                            setError({ ...error, how_religious_are_you: false });
+                        }}
+                    >
                         <SbRadio title="Not all" value="Not all" />
                         <SbRadio title="Little" value="Little" />
                         <SbRadio title="Moderate" value="Moderate" />
                     </SbRadioGroup>
+                    {error.how_religious_are_you && <span className='error__text'>
+                        This field is required
+                    </span>}
                 </div>
-                <div className="text-[13px]">
-                    <p className="mb-1">Your favourite weekend activities</p>
-                    <SbCheckGroup value={data.holidays} onChange={(v) => {
-                        let selected = data.holidays || [];
-                        const value = v;
-
-                        if (selected.includes(value))
-                            selected = selected.filter(i => i !== value);
-                        else
-                            selected.push(value);
-
-                        setData({ ...data, holidays: selected });
-                    }}>
-                        <SbCheckItem title="Luxury" value="Luxury" />
-                        <SbCheckItem title="Budget" value="Budget" />
-                        <SbCheckItem title="Well planned" value="Well planned" />
-                        <SbCheckItem title="Unplanned trips" value="Unplanned trips" />
-                    </SbCheckGroup>
-                </div>
-
-
 
 
                 <div className="flex items-center justify-between mt-5 gap-4">
@@ -82,7 +128,7 @@ const LifeStyle4 = ({ next, back }) => {
                         <FaArrowLeft className="inline mr-1" />
                         Back
                     </button>
-                    <button className='grad__btn' onClick={next}>
+                    <button className='grad__btn' onClick={handleContinue}>
                         Continue
                     </button>
                 </div>

@@ -49,6 +49,7 @@ textarea {
     background-size: 200% 100%;
     background-position: left;
     transition: background-position 0.5s ease;
+    @apply flex items-center justify-center;
 }
 
 .grad__btn:hover {
@@ -89,6 +90,7 @@ textarea {
     flex-direction: column;
     justify-content: end;
     padding: 10px 20px;
+    height: 385px;
 }
 
 .side__bg {
@@ -155,6 +157,21 @@ select {
     left: -20px;
     top: 100px;
     border-radius: 100%;
+    animation: floatMove 6s ease-in-out infinite alternate;
+}
+
+@keyframes floatMove {
+    0% {
+        transform: translate(0px, 0px);
+    }
+
+    50% {
+        transform: translate(40px, 80px);
+    }
+
+    100% {
+        transform: translate(-20px, 30px);
+    }
 }
 
 .reg__circle__right {
@@ -167,10 +184,15 @@ select {
     bottom: 0px;
     border-radius: 100%;
 }
-.error__text{
+
+.error__text {
     font-size: 11px;
     color: tomato;
     font-style: italic;
+}
+
+.reg__form {
+    @apply w-full lg:w-[40%] flex flex-col gap-4 bg-white rounded-2xl shadow-2xl p-8 z-50 mb-3;
 }
 
 
@@ -252,44 +274,47 @@ select {
 }
 
 .navigation__menu:hover {
-    background: linear-gradient(to bottom, #437272,  #1e4646);
+    background: linear-gradient(to bottom, #437272, #1e4646);
 }
 
 .navigation__menu svg {
     font-size: 30px;
 }
 
-.main__photo{
-   @apply w-full overflow-hidden;
-   background-color: white;
-   border: 3px dashed var(--field-color);
-   height: 350px;
-   padding: 10px;
-   box-shadow: 0px 0px 5px var(--field-color);
-   border-radius: 30px;
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   align-items: center;
-   cursor: pointer;
+.main__photo {
+    @apply w-full overflow-hidden;
+    background-color: white;
+    border: 3px dashed var(--field-color);
+    height: 350px;
+    padding: 10px;
+    box-shadow: 0px 0px 5px var(--field-color);
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
-.all__photo{
-   @apply w-full grid grid-cols-2 gap-4 overflow-hidden;
-   height: 350px;
+
+.all__photo {
+    @apply w-full grid grid-cols-2 gap-4 overflow-hidden;
+    height: 350px;
 }
-.all__photo div{
-   box-shadow: inset 0px 0px 5px var(--field-color);
-   position: relative;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   border-radius: 30px;
-   padding: 10px;
-   cursor: pointer;
-   border: 2px dashed rgb(243, 242, 242);
-   overflow: hidden;
+
+.all__photo div {
+    box-shadow: inset 0px 0px 5px var(--field-color);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    padding: 10px;
+    cursor: pointer;
+    border: 2px dashed rgb(243, 242, 242);
+    overflow: hidden;
 }
-.photo__num__badge{
+
+.photo__num__badge {
     width: 25px;
     height: 25px;
     border-radius: 100%;
@@ -302,27 +327,30 @@ select {
     left: 10px;
     font-size: 12px;
 }
-.pref__system{
+
+.pref__system {
     background-color: rgb(225, 225, 248);
     border-start-start-radius: 30px;
     border-start-end-radius: 30px;
     border-end-end-radius: 30px;
-    padding:10px;
+    padding: 10px;
     font-size: 13px;
-    color: rgb(85, 83, 83,03);
+    color: rgb(85, 83, 83, 03);
     max-width: 70%;
 }
-.pref__user{
+
+.pref__user {
     background-color: rgb(23, 23, 53);
     border-start-start-radius: 30px;
     border-end-start-radius: 30px;
     border-end-end-radius: 30px;
-    padding:15px 20px;
+    padding: 15px 20px;
     font-size: 13px;
-    color:white;
+    color: white;
     max-width: 70%;
 }
-.pref__next{
+
+.pref__next {
     background-color: white;
     border-radius: 30px;
     width: 80px;
@@ -332,6 +360,43 @@ select {
     margin-top: 15px;
     float: right;
 }
-.pref__next:hover{
+
+.pref__next:hover {
     background-color: rgb(228, 223, 223);
+}
+
+.res__error {
+    @apply w-full p-2 rounded bg-red-400 border border-red-500 text-sm text-white mb-3 flex justify-between items-center;
+}
+
+.res__error span {
+    font-size: 13px;
+}
+
+.loading {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid white;
+    border-top-color: rgb(105, 103, 103);
+    animation: loader 0.7s linear infinite;
+}
+
+@keyframes loader {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.logout__btn {
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: var(--primary);
+    color: white;
+    cursor: pointer;
 }

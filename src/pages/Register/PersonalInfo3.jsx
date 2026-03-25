@@ -86,7 +86,7 @@ const PersonalInfo3 = ({ next, back }) => {
                 <p className='text-xs text-gray-400'>Let's build the foundation of your curated</p>
                 <p className='text-xs text-gray-400'>experience</p>
             </div>
-            <div className='w-full lg:w-[40%] flex flex-col gap-4 bg-white rounded-2xl shadow-2xl p-8 mb-3'>
+            <div className='reg__form'>
                 <h1 className='reg__title'>Personal Details</h1>
 
                 <div className='input__field mt-3'>
@@ -172,13 +172,14 @@ const PersonalInfo3 = ({ next, back }) => {
 
 
                 <div className="text-[13px]">
-                    <p className="mb-1">Select Your Gender</p>
+                    <p className="mb-1">Tell us about your eating preferences?</p>
                     <SbRadioGroup
                         value={data.eating_preferences}
                         onChange={(v) => {
                             setData({ ...data, eating_preferences: v })
                             setError({ ...error, eating_preferences: false });
-                        }} name="etingPref"
+                        }} 
+                        name="etingPref"
                     >
                         <SbRadio title="Veg" value="veg" />
                         <SbRadio title="Non-Veg" value="non-veg" />
@@ -244,7 +245,8 @@ const PersonalInfo3 = ({ next, back }) => {
                                     onChange={(v) => {
                                         setData({ ...data, do_have_kids: v })
                                         setError({ ...error, do_have_kids: false });
-                                    }} name="etingPref"
+                                    }} 
+                                    name="kids"
                                 >
                                     <SbRadio title="Yes" value="Yes" />
                                     <SbRadio title="No" value="No" />

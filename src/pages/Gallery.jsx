@@ -5,36 +5,61 @@ import { RiAddLine } from "react-icons/ri";
 
 const Gallery = ({ next, back }) => {
     const selectedType = ['png', 'jpg', 'jpeg'];
+    const [error, setError] = useState(null);
     const [data, setData] = useState({
-        first: "", second: "", thrid: "", fourth: '', five: ""
+        one: "", two: "", three: "", four: '', five: "", six: ''
     })
 
     const handleUpload = async (which) => {
         const [fileHandle] = await window.showOpenFilePicker();
         const file = await fileHandle.getFile();
         const fileType = file.type.split("/")[1]
-        if(!selectedType.includes(fileType)) {
+        if (!selectedType.includes(fileType)) {
             alert("Invalid file type Allow:[jpg, png, jpeg] only");
             return;
         };
 
         const reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = function(){
-            const allData = {...data};
+        reader.onload = function () {
+            const allData = { ...data };
             allData[which] = reader.result;
-            setData({...allData});
+            setData({ ...allData });
+            setError(false);
         }
-        
+
+    }
+
+
+    const handleContinue = async () => {
+        let newErrors = false;
+
+        Object.keys(data).map((k, i) => {
+            if (data[k] === "" && k!== "six") {
+                newErrors = true;
+                return;
+            }
+        })
+        setError(newErrors);
+        if (newErrors) return;
+
+        try {
+            next();
+
+        } catch (err) {
+            return alert("Something went wrong");
+        }
     }
 
     return (
         <>
             <h1 className="text-2xl font-bold mt-4">Your Gallery</h1>
             <p className="text-xs w-62.5 lg:w-full text-center">A glimpse into your world. Please upload 5 photos that capture your true self.</p>
+            {error && <span className='error__text mt-2'>Please upload all photos</span>}
+
             <div className='w-[80%] md:w-[60%] flex flex-col lg:flex-row items-center gap-4 overflow-hidden p-4 animate-slide-in mt-5'>
-                <div className="main__photo relative" onClick={()=>handleUpload('first')}>
-                    {data.first && <img src={data.first} className="absolute top-0 left-0 w-full h-full" />}
+                <div className="main__photo relative" onClick={() => handleUpload('one')}>
+                    {data.one && <img src={data.one} className="absolute top-0 left-0 w-full h-full" />}
                     <div className="w-10 h-10 rounded-full bg-red-100 grid place-items-center">
                         <MdOutlineAddAPhoto className="text-red-700 " size={20} />
                     </div>
@@ -42,22 +67,22 @@ const Gallery = ({ next, back }) => {
                     <p className="text-xs text-gray-500 w-50 text-center mt-2">This is the first photo others will see. Make it count.</p>
                 </div>
                 <div className="all__photo">
-                    <div onClick={()=>handleUpload('second')}>
-                        {data.second && <img src={data.second} className="absolute top-0 left-0 w-full h-full" />}
+                    <div onClick={() => handleUpload('two')}>
+                        {data.two && <img src={data.two} className="absolute top-0 left-0 w-full h-full" />}
                         <p className="photo__num__badge">1</p>
                         <RiAddLine />
                     </div>
-                    <div onClick={()=>handleUpload('thrid')}>
-                        {data.thrid && <img src={data.thrid} className="absolute top-0 left-0 w-full h-full" />}
+                    <div onClick={() => handleUpload('three')}>
+                        {data.three && <img src={data.three} className="absolute top-0 left-0 w-full h-full" />}
                         <p className="photo__num__badge">2</p>
                         <RiAddLine />
                     </div>
-                    <div onClick={()=>handleUpload('fourth')}>
-                        {data.fourth && <img src={data.fourth} className="absolute top-0 left-0 w-full h-full" />}
+                    <div onClick={() => handleUpload('four')}>
+                        {data.four && <img src={data.four} className="absolute top-0 left-0 w-full h-full" />}
                         <p className="photo__num__badge">3</p>
                         <RiAddLine />
                     </div>
-                    <div onClick={()=>handleUpload('five')}>
+                    <div onClick={() => handleUpload('five')}>
                         {data.five && <img src={data.five} className="absolute top-0 left-0 w-full h-full" />}
                         <p className="photo__num__badge">4</p>
                         <RiAddLine />
@@ -69,7 +94,7 @@ const Gallery = ({ next, back }) => {
                     <FaArrowLeft className="inline mr-1" />
                     Back
                 </button>
-                <button className='grad__btn' onClick={next}>
+                <button className='grad__btn' onClick={handleContinue}>
                     Continue
                 </button>
             </div>

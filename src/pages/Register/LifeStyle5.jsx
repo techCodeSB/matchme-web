@@ -1,12 +1,34 @@
-import React, { useState } from 'react'
-import { SbRadio, SbRadioGroup } from '../../components/SbRadio'
+import { useState } from 'react'
 import { FaArrowLeft } from 'react-icons/fa6'
-import { SbCheckGroup, SbCheckItem } from '../../components/SbCheck'
 
 const LifeStyle5 = ({ next, back }) => {
+    const [error, setError] = useState({});
     const [data, setData] = useState({
-        holidays: []
+        about_yourself: ''
     })
+
+    const handleContinue = async () => {
+        const newErrors = {};
+
+        Object.keys(data).map((k, i) => {
+            if (data[k] === "") {
+                newErrors[k] = true;
+                return;
+            }
+        })
+        setError((prev) => ({
+            ...prev,
+            ...newErrors
+        }));
+        if (Object.keys(newErrors).length > 0) return;
+
+        try {
+            next();
+
+        } catch (err) {
+            return alert("Something went wrong");
+        }
+    }
 
 
     return (
@@ -18,7 +40,7 @@ const LifeStyle5 = ({ next, back }) => {
                 <p className='text-xs text-gray-400'>Let's build the foundation of your curated</p>
                 <p className='text-xs text-gray-400'>experience</p>
             </div>
-            <div className='w-full lg:w-[40%] flex flex-col gap-4 bg-white rounded-2xl shadow-2xl p-8'>
+            <div className='reg__form'>
                 <h1 className='reg__title'>Life Style</h1>
 
                 <div className='input__field mt-3'>
@@ -26,7 +48,13 @@ const LifeStyle5 = ({ next, back }) => {
                     <textarea
                         rows={5}
                         placeholder='Enter Introduction'
+                        value={data.about_yourself}
+                        onChange={(e) => {
+                            setData({ ...data, about_yourself: e.target.value });
+                            setError({ ...error, about_yourself: false });
+                        }}
                     ></textarea>
+                    {error.about_yourself && <span className='error__text'>This field is required</span>}
                 </div>
 
                 <div className="flex items-center justify-between mt-5 gap-4">
@@ -34,7 +62,7 @@ const LifeStyle5 = ({ next, back }) => {
                         <FaArrowLeft className="inline mr-1" />
                         Back
                     </button>
-                    <button className='grad__btn' onClick={next}>
+                    <button className='grad__btn' onClick={handleContinue}>
                         Continue
                     </button>
                 </div>
