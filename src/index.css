@@ -11,7 +11,7 @@ body {
     --primary: #2B6969;
 }
 
-.login_main {
+.main {
     width: 100%;
     min-height: calc(100vh - 60px);
     display: grid;
@@ -152,25 +152,43 @@ select {
     width: 150px;
     height: 150px;
     background: radial-gradient(red, red, rgb(87, 6, 6));
-    filter: blur(90px);
-    position: absolute;
+    filter: blur(72px);
+    position: fixed;
     left: -20px;
     top: 100px;
     border-radius: 100%;
     animation: floatMove 6s ease-in-out infinite alternate;
 }
 
+.reg__circle__left::before {
+    position: absolute;
+    content: "";
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(red, rgb(114, 86, 216), rgb(87, 6, 6));
+    left: 120px;
+    top: 50px;
+}
+
 @keyframes floatMove {
     0% {
-        transform: translate(0px, 0px);
+        transform: translate(10px, -30px);
+    }
+
+    30% {
+        transform: translate(-30px, 40px);
     }
 
     50% {
-        transform: translate(40px, 80px);
+        transform: translate(40px, 60px);
+    }
+
+    70%{
+       transform: translate(-10px, 80px); 
     }
 
     100% {
-        transform: translate(-20px, 30px);
+        transform: translate(-20px, 90px);
     }
 }
 
@@ -179,7 +197,7 @@ select {
     height: 150px;
     background: radial-gradient(red, red, rgb(87, 6, 6));
     filter: blur(90px);
-    position: absolute;
+    position: fixed;
     right: 0px;
     bottom: 0px;
     border-radius: 100%;
@@ -399,4 +417,22 @@ select {
     background-color: var(--primary);
     color: white;
     cursor: pointer;
+}
+
+.profile__field__card{
+    width: 100%;
+    padding: 2px 10px;
+    color: rgb(39, 39, 39);
+    border-radius: 5px;
+    @apply hover:bg-gray-100;
+    background-color: white;
+    box-shadow: 0px 0px 5px lightgray;
+}
+.profile__field__card .title{
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.profile__field__card .sub__title{
+    font-size: 12px;
 }

@@ -39,7 +39,7 @@ const Register = () => {
         <>
             <Nav active={2}/>
 
-            <main className='login_main relative'>
+            <main className='main relative'>
                 <div className='reg__circle__left'></div>
                 <div className='reg__circle__right'></div>
 

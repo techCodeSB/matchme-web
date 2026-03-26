@@ -77,7 +77,7 @@ const Login = () => {
     return (
         <>
             <LoginNav />
-            <main className='login_main'>
+            <main className='main'>
                 <div className='flex items-stretch w-[90%] lg:w-[65%] bg-white shadow-lg rounded-3xl overflow-hidden'>
                     {/* Image */}
                     <div className='hidden lg:flex login_side__bg'>

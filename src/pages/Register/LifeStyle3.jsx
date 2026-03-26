@@ -89,7 +89,7 @@ const LifeStyle3 = ({ next, back }) => {
                     </span>}
                 </div>
                 <div className="text-[13px]">
-                    <p className="mb-1">Your favourite weekend activities</p>
+                    <p className="mb-1">What kind of holidays do your prefer</p>
                     <SbCheckGroup value={data.holidays_prefrences} onChange={(v) => {
                         let selected = data.holidays_prefrences || [];
                         const value = v;
