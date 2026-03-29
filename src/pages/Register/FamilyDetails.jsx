@@ -1,8 +1,12 @@
 import { FaArrowLeft } from "react-icons/fa6";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useSaveLocalStorageData from "../../hooks/useSaveLocalStorageData";
+import useGetFormData from "../../hooks/useGetFormData";
 
 
 const FamilyDetails = ({ next, back }) => {
+    const saveData = useSaveLocalStorageData();
+    const getData = useGetFormData();
     const [error, setError] = useState({});
     const [data, setData] = useState({
         "father_name": "",
@@ -17,6 +21,10 @@ const FamilyDetails = ({ next, back }) => {
     })
 
 
+    useEffect(()=>{
+        const presistentData = getData(data);
+        setData(presistentData)
+    },[])
 
     const handleContinue = async () => {
         const newErrors = {};
@@ -34,6 +42,7 @@ const FamilyDetails = ({ next, back }) => {
         if (Object.keys(newErrors).length > 0) return;
 
         try {
+            saveData(data);
             next();
 
         } catch (err) {

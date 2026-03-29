@@ -25,7 +25,7 @@ const Profile = () => {
         })
         const res = await req.json();
         if (req.status !== 200) {
-          return alert(res.err);
+          if(token) alert(res.err);
         }
         console.log(res);
         setData(res);

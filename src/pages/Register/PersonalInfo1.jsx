@@ -1,12 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import useSaveLocalStorageData from '../../hooks/useSaveLocalStorageData';
+import useGetFormData from '../../hooks/useGetFormData';
 
 const PersonalInfo1 = ({ next }) => {
+    const saveData = useSaveLocalStorageData();
+    const getData = useGetFormData();
+
     const [error, setError] = useState({});
     const [data, setData] = useState({
         full_name: '', nick_name: '', gender: '', dob: '',
         birth_time: '', birth_place: ''
     })
 
+
+    useEffect(()=>{
+        const presistentData = getData(data);
+        setData(presistentData)
+    },[])
 
 
     const handleContinue = async () => {
@@ -25,6 +35,7 @@ const PersonalInfo1 = ({ next }) => {
         if (Object.keys(newErrors).length > 0) return;
 
         try{
+            saveData(data);
             next();
 
         }catch(err){

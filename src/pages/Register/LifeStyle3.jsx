@@ -1,15 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SbRadio, SbRadioGroup } from '../../components/SbRadio'
 import { FaArrowLeft } from 'react-icons/fa6'
 import { SbCheckGroup, SbCheckItem } from '../../components/SbCheck'
+import useSaveLocalStorageData from '../../hooks/useSaveLocalStorageData'
+import useGetFormData from '../../hooks/useGetFormData'
+
+
 
 const LifeStyle3 = ({ next, back }) => {
+    const saveData = useSaveLocalStorageData();
+    const getData = useGetFormData();
     const [error, setError] = useState({});
     const [data, setData] = useState({
         "holidays_prefrences": [],
         "how_often_you_eat_out": '',
         "how_often_you_travel": '',
     })
+
+
+
+
+    useEffect(()=>{
+        const presistentData = getData(data);
+        setData(presistentData)
+    },[])
 
     const handleContinue = async () => {
         const newErrors = {};
@@ -31,6 +45,7 @@ const LifeStyle3 = ({ next, back }) => {
         if (Object.keys(newErrors).length > 0) return;
 
         try {
+            saveData(data);
             next();
 
         } catch (err) {

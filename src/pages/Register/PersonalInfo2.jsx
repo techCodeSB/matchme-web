@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
+import useSaveLocalStorageData from "../../hooks/useSaveLocalStorageData";
+import useGetFormData from "../../hooks/useGetFormData";
 
 
 const PersonalInfo2 = ({ next, back }) => {
+    const saveData = useSaveLocalStorageData();
+    const getData = useGetFormData();
     const [error, setError] = useState({});
     const [data, setData] = useState({
         country: '', city: '', locality: '', nationality: '',
@@ -10,6 +14,10 @@ const PersonalInfo2 = ({ next, back }) => {
     })
 
 
+    useEffect(() => {
+        const presistentData = getData(data);
+        setData(presistentData)
+    }, [])
 
     const handleContinue = async () => {
         const newErrors = {};
@@ -27,6 +35,7 @@ const PersonalInfo2 = ({ next, back }) => {
         if (Object.keys(newErrors).length > 0) return;
 
         try {
+            saveData(data);
             next();
 
         } catch (err) {

@@ -1,8 +1,12 @@
 import { FaArrowLeft } from "react-icons/fa6";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useSaveLocalStorageData from "../../hooks/useSaveLocalStorageData";
+import useGetFormData from "../../hooks/useGetFormData";
 
 
 const QualificationDetails = ({ next, back }) => {
+    const saveData = useSaveLocalStorageData();
+    const getData = useGetFormData();
     const [error, setError] = useState({});
     const [data, setData] = useState({
         "highest_qualification": "",
@@ -13,6 +17,12 @@ const QualificationDetails = ({ next, back }) => {
         "other_qualification_details": "",
         "highest_degree": ""
     })
+
+
+    useEffect(() => {
+        const presistentData = getData(data);
+        setData(presistentData)
+    }, [])
 
 
     const handleContinue = async () => {
@@ -37,6 +47,7 @@ const QualificationDetails = ({ next, back }) => {
         if (Object.keys(newErrors).length > 0) return;
 
         try {
+            saveData(data);
             next();
 
         } catch (err) {

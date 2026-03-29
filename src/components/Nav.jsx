@@ -1,8 +1,17 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FaCircleUser } from "react-icons/fa6";
+import Cookies from 'js-cookie';
 
 
 const Nav = ({ active }) => {
+    const navigate = useNavigate();
+
+
+    const logout=()=>{
+        Cookies.remove("mm-token");
+        navigate("/login");
+    }
+
     return (
         <nav className='w-full h-12 flex items-center bg-white shadow sticky top-0 z-90'>
             <div className='w-[90%] lg:w-[70%] mx-auto flex items-center justify-between'>
@@ -21,7 +30,7 @@ const Nav = ({ active }) => {
                     </Link>
                 </div>
                 <div className='flex items-center gap-4'>
-                    <button className='logout__btn'>
+                    <button className='logout__btn' onClick={logout}>
                         Logout
                     </button>
                     <div>

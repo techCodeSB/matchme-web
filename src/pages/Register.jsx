@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import LoginNav from '../components/LoginNav';
+import { useEffect, useState } from 'react';
 import PersonalInfo1 from './Register/PersonalInfo1';
 import PersonalInfo2 from './Register/PersonalInfo2';
 import PersonalInfo3 from './Register/PersonalInfo3';
@@ -35,9 +34,21 @@ const Register = () => {
     };
 
 
+    useEffect(() => {
+        const s = localStorage.getItem("formStep") ?? 1;
+        setStep(Number(s));
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem("formStep", step);
+    }, [step])
+
+
+
+
     return (
         <>
-            <Nav active={2}/>
+            <Nav active={2} />
 
             <main className='main relative'>
                 <div className='reg__circle__left'></div>

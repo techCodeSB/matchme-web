@@ -1,11 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaArrowLeft } from 'react-icons/fa6'
 import { SbCheckGroup, SbCheckItem } from '../../components/SbCheck'
+import useSaveLocalStorageData from '../../hooks/useSaveLocalStorageData';
+import useGetFormData from '../../hooks/useGetFormData';
+
+
 
 const LifeStyle2 = ({ next, back }) => {
+    const saveData = useSaveLocalStorageData();
+    const getData = useGetFormData();
     const [error, setError] = useState(null);
-    const [data, setData] = useState([])
+    const [data, setData] = useState({ interests: [] })
 
+
+
+    useEffect(() => {
+        const presistentData = getData(data);
+        console.log(presistentData)
+        setData(presistentData)
+    }, [])
 
     const handleContinue = async () => {
         if (data.length < 1) {
@@ -18,6 +31,7 @@ const LifeStyle2 = ({ next, back }) => {
         }
 
         try {
+            saveData(data);
             next();
 
         } catch (err) {
@@ -40,15 +54,24 @@ const LifeStyle2 = ({ next, back }) => {
 
                 <div className="text-[13px] mt-5">
                     <p className="mb-1">What are your interest</p>
-                    <SbCheckGroup value={data} onChange={(v) => {
+                    <SbCheckGroup value={data.interests} onChange={(v) => {
                         const value = v;
 
                         setData(prev => {
-                            if (prev.includes(value)) {
-                                return prev.filter(i => i !== value);
+                            const interests = prev.interests || [];
+
+                            let updatedInterests;
+
+                            if (interests.includes(value)) {
+                                updatedInterests = interests.filter(i => i !== value);
                             } else {
-                                return [...prev, value];
+                                updatedInterests = [...interests, value];
                             }
+
+                            return {
+                                ...prev,
+                                interests: updatedInterests
+                            };
                         });
                         setError(false);
                     }}>

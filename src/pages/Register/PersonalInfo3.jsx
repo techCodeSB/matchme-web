@@ -1,9 +1,13 @@
 import { FaArrowLeft } from "react-icons/fa6";
 import { SbRadio, SbRadioGroup } from "../../components/SbRadio";
 import { useEffect, useState } from "react";
+import useSaveLocalStorageData from "../../hooks/useSaveLocalStorageData";
+import useGetFormData from "../../hooks/useGetFormData";
 
 
 const PersonalInfo3 = ({ next, back }) => {
+    const saveData = useSaveLocalStorageData();
+    const getData = useGetFormData();
     const [heightFeet, setHeightFeet] = useState(null);
     const [heightInch, setHeightInch] = useState(null);
     const [weight, setWeight] = useState(null);
@@ -21,6 +25,22 @@ const PersonalInfo3 = ({ next, back }) => {
         "marital_status_from_year": "",
         "marital_status_to_year": "",
     })
+
+
+
+
+    useEffect(()=>{
+        const presistentData = getData(data);
+        const [hF, hI] = presistentData.height.split(".");
+        const [w, wUnit] = presistentData.weight.split(".");
+
+        setHeightFeet(hF);
+        setHeightInch(hI);
+        setWeight(w);
+        setWeightUnit(wUnit);
+        setData(presistentData)
+    },[])
+
 
     useEffect(() => {
         if (!heightFeet || !heightInch) return;
@@ -68,6 +88,7 @@ const PersonalInfo3 = ({ next, back }) => {
         if (Object.keys(newErrors).length > 0) return;
 
         try {
+            saveData(data)
             next();
 
         } catch (err) {

@@ -1,11 +1,27 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaArrowLeft } from 'react-icons/fa6'
+import useSaveLocalStorageData from '../../hooks/useSaveLocalStorageData';
+import useGetFormData from '../../hooks/useGetFormData';
+import Cookies from 'js-cookie';
+
+
 
 const LifeStyle5 = ({ next, back }) => {
+    const token = Cookies.get("mm-token")
+    const saveData = useSaveLocalStorageData();
+    const getData = useGetFormData();
     const [error, setError] = useState({});
     const [data, setData] = useState({
         about_yourself: ''
     })
+
+
+
+    useEffect(() => {
+        const presistentData = getData(data);
+        setData(presistentData)
+    }, [])
+
 
     const handleContinue = async () => {
         const newErrors = {};
@@ -23,6 +39,24 @@ const LifeStyle5 = ({ next, back }) => {
         if (Object.keys(newErrors).length > 0) return;
 
         try {
+            saveData(data);
+
+            //Save All Form Data (without gallery and preferance);
+            const URL = `${import.meta.env.VITE_API_URL}/users/update`;
+            const localData = JSON.parse(localStorage.getItem("mmData"));
+
+            const req = await fetch(URL, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({...localData, token})
+            })
+            const res = await req.json();
+            if (req.status !== 200) {
+                return alert(res.err);
+            }
+
             next();
 
         } catch (err) {
