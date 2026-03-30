@@ -1,29 +1,60 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import { MdOutlineAddAPhoto } from "react-icons/md";
 import { RiAddLine } from "react-icons/ri";
+import Cookies from 'js-cookie';
+import useGetFormDB from '../hooks/useGetFromDB';
+
 
 const Gallery = ({ next, back }) => {
+    const token = Cookies.get("mm-token")
+    const getDB = useGetFormDB();
     const selectedType = ['png', 'jpg', 'jpeg'];
     const [error, setError] = useState(null);
+    // Base64Data
     const [data, setData] = useState({
         one: "", two: "", three: "", four: '', five: "", six: ''
     })
+    const formDataRef = useRef(new FormData());
+
+
+
+    useEffect(() => {
+        (async () => {
+            const dbData = await getDB({ image: '' });
+            const pathObj = {};
+
+            if (dbData.image) {
+                for (let k of Object.keys(dbData.image)) {
+                    pathObj[k] = `${import.meta.env.VITE_API_URL}/users/upload/${dbData.image[k]}`;
+                }
+
+                setData(pathObj);
+            }
+
+        })()
+    }, [])
 
     const handleUpload = async (which) => {
         const [fileHandle] = await window.showOpenFilePicker();
         const file = await fileHandle.getFile();
-        const fileType = file.type.split("/")[1]
+        const fileType = file.type.split("/")[1];
+
         if (!selectedType.includes(fileType)) {
             alert("Invalid file type Allow:[jpg, png, jpeg] only");
             return;
         };
 
+        //Set Files only;
+        formDataRef.current.append(which, file);
+
+        // Set Base64 data
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = function () {
             const allData = { ...data };
             allData[which] = reader.result;
+
             setData({ ...allData });
             setError(false);
         }
@@ -35,7 +66,7 @@ const Gallery = ({ next, back }) => {
         let newErrors = false;
 
         Object.keys(data).map((k, i) => {
-            if (data[k] === "" && k!== "six") {
+            if (data[k] === "" && k !== "six") {
                 newErrors = true;
                 return;
             }
@@ -44,6 +75,22 @@ const Gallery = ({ next, back }) => {
         if (newErrors) return;
 
         try {
+            // If no new files uploaded skip API call
+            if (![...formDataRef.current.keys()].length) {
+                return next();
+            }
+
+            const URL = `${import.meta.env.VITE_API_URL}/users/upload`;
+            formDataRef.current.append("token", token.toString());
+            const req = await fetch(URL, {
+                method: 'POST',
+                body: formDataRef.current
+            })
+            const res = await req.json();
+            if (req.status !== 200) {
+                return alert(res.err);
+            }
+
             next();
 
         } catch (err) {
@@ -57,7 +104,7 @@ const Gallery = ({ next, back }) => {
             <p className="text-xs w-62.5 lg:w-full text-center">A glimpse into your world. Please upload 5 photos that capture your true self.</p>
             {error && <span className='error__text mt-2'>Please upload all photos</span>}
 
-            <div className='w-[80%] md:w-[60%] flex flex-col lg:flex-row items-center gap-4 overflow-hidden p-4 animate-slide-in mt-5'>
+            <div className='w-[80%] md:w-[50%] flex flex-col lg:flex-row items-center gap-4 overflow-hidden p-4 animate-slide-in mt-5'>
                 <div className="main__photo relative" onClick={() => handleUpload('one')}>
                     {data.one && <img src={data.one} className="absolute top-0 left-0 w-full h-full" />}
                     <div className="w-10 h-10 rounded-full bg-red-100 grid place-items-center">

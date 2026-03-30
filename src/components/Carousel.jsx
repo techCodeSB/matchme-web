@@ -49,24 +49,28 @@ function CarouselItem({ item, index, itemWidth, round, trackItemOffset, x, trans
   return (
     <motion.div
       key={`${item?.id ?? index}-${index}`}
-      className={`relative shrink-0 flex flex-col ${
-        round
-          ? 'items-center justify-center text-center bg-[#060010] border-0'
-          : 'items-start justify-between bg-[#222] border border-[#222] rounded-xl'
-      } overflow-hidden cursor-grab active:cursor-grabbing`}
+      className={`relative shrink-0 flex flex-col ${round
+        ? 'items-center justify-center text-center bg-[#060010] border-0'
+        : 'items-start justify-between bg-[#222] border border-[#222] rounded-xl'
+        } overflow-hidden cursor-grab active:cursor-grabbing`}
       style={{
         width: itemWidth,
         height: round ? itemWidth : '100%',
         rotateY: rotateY,
-        ...(round && { borderRadius: '50%' })
+        ...(round && { borderRadius: '50%' }),
+        backgroundImage: `url(${item?.img})`,
+        backgroundSize: "cover",        // ✅ important
+        backgroundPosition: "center",   // ✅ important
+        backgroundRepeat: "no-repeat",
+        minHeight: "170px"
       }}
       transition={transition}
     >
-      <div className={`${round ? 'p-0 m-0' : 'mb-4 p-5'}`}>
+      {/* <div className={`${round ? 'p-0 m-0' : 'mb-4 p-5'}`}>
         <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#060010]">
           {item.icon}
         </span>
-      </div>
+      </div> */}
       <div className="p-5">
         <div className="mb-1 font-black text-lg text-white">{item.title}</div>
         <p className="text-sm text-white">{item.description}</p>
@@ -198,11 +202,11 @@ export default function Carousel({
   const dragProps = loop
     ? {}
     : {
-        dragConstraints: {
-          left: -trackItemOffset * Math.max(itemsForRender.length - 1, 0),
-          right: 0
-        }
-      };
+      dragConstraints: {
+        left: -trackItemOffset * Math.max(itemsForRender.length - 1, 0),
+        right: 0
+      }
+    };
 
   const activeIndex =
     items.length === 0 ? 0 : loop ? (position - 1 + items.length) % items.length : Math.min(position, items.length - 1);
@@ -210,9 +214,8 @@ export default function Carousel({
   return (
     <div
       ref={containerRef}
-      className={`relative overflow-hidden p-4 ${
-        round ? 'rounded-full border border-white' : 'rounded-3xl bg-white shadow-2xl'
-      }`}
+      className={`relative overflow-hidden p-4 ${round ? 'rounded-full border border-white' : 'rounded-3xl bg-white shadow-2xl'
+        }`}
       style={{
         width: `${baseWidth}px`,
         ...(round && { height: `${baseWidth}px` })
@@ -253,15 +256,14 @@ export default function Carousel({
           {items.map((_, index) => (
             <motion.div
               key={index}
-              className={`h-2 w-2 rounded-full cursor-pointer transition-colors duration-150 ${
-                activeIndex === index
-                  ? round
-                    ? 'bg-white'
-                    : 'bg-[#333333]'
-                  : round
-                    ? 'bg-[#555]'
-                    : 'bg-[rgba(51,51,51,0.4)]'
-              }`}
+              className={`h-2 w-2 rounded-full cursor-pointer transition-colors duration-150 ${activeIndex === index
+                ? round
+                  ? 'bg-white'
+                  : 'bg-[#333333]'
+                : round
+                  ? 'bg-[#555]'
+                  : 'bg-[rgba(51,51,51,0.4)]'
+                }`}
               animate={{
                 scale: activeIndex === index ? 1.2 : 1
               }}

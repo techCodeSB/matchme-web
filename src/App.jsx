@@ -1,9 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
 import Protected from './components/Protected';
 import Profile from './pages/Profile';
+import Psychometric from './pages/Psychometric';
 
 
 const App = () => {
@@ -14,6 +14,7 @@ const App = () => {
         <Route index element={<Profile />} />
         <Route path='profile' element={<Profile />} />
         <Route path='edit-profile' element={<Register />} />
+        <Route path='psychometric-test' element={<Psychometric />} />
       </Route>
     </Routes>
   )

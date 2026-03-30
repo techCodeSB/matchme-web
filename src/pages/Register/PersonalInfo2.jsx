@@ -2,21 +2,32 @@ import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import useSaveLocalStorageData from "../../hooks/useSaveLocalStorageData";
 import useGetFormData from "../../hooks/useGetFormData";
+import useGetFormDB from '../../hooks/useGetFromDB';
 
 
 const PersonalInfo2 = ({ next, back }) => {
     const saveData = useSaveLocalStorageData();
     const getData = useGetFormData();
+    const getDB = useGetFormDB();
+
     const [error, setError] = useState({});
     const [data, setData] = useState({
         country: '', city: '', locality: '', nationality: '',
-        community: '', medical: '', religious: ''
+        community: '', medical_history: '', religion: ''
     })
 
 
     useEffect(() => {
-        const presistentData = getData(data);
-        setData(presistentData)
+        (async () => {
+            const presistentData = getData(data);
+            const dbData = await getDB(data);
+
+            if (Object.values(dbData).length < 1) {
+                setData(presistentData)
+            } else {
+                setData(dbData);
+            }
+        })()
     }, [])
 
     const handleContinue = async () => {
@@ -110,10 +121,10 @@ const PersonalInfo2 = ({ next, back }) => {
                 <div className='input__field'>
                     <p>Select Religion</p>
                     <select
-                        value={data.religious}
+                        value={data.religion}
                         onChange={(e) => {
-                            setData({ ...data, religious: e.target.value });
-                            setError({ ...error, religious: false });
+                            setData({ ...data, religion: e.target.value });
+                            setError({ ...error, religion: false });
                         }}
                     >
                         <option value="">Select</option>
@@ -124,7 +135,7 @@ const PersonalInfo2 = ({ next, back }) => {
                         <option value="Buddhist">Buddhist</option>
                         <option value="Muslim">Muslim</option>
                     </select>
-                    {error.religious && <span className='error__text'>This field is required</span>}
+                    {error.religion && <span className='error__text'>This field is required</span>}
                 </div>
                 <div className='input__field'>
                     <p>Enter Community Name(optional)</p>
@@ -142,13 +153,13 @@ const PersonalInfo2 = ({ next, back }) => {
                     <p>Enter Medical History</p>
                     <input type="text"
                         placeholder='Enter Your Medical History'
-                        value={data.medical}
+                        value={data.medical_history}
                         onChange={(e) => {
-                            setData({ ...data, medical: e.target.value });
-                            setError({ ...error, medical: false });
+                            setData({ ...data, medical_history: e.target.value });
+                            setError({ ...error, medical_history: false });
                         }}
                     />
-                    {error.medical && <span className='error__text'>This field is required</span>}
+                    {error.medical_history && <span className='error__text'>This field is required</span>}
                 </div>
 
                 <div className="flex items-center justify-between mt-5 gap-4">

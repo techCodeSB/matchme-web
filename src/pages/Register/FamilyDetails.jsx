@@ -2,11 +2,14 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import useSaveLocalStorageData from "../../hooks/useSaveLocalStorageData";
 import useGetFormData from "../../hooks/useGetFormData";
+import useGetFormDB from '../../hooks/useGetFromDB';
 
 
 const FamilyDetails = ({ next, back }) => {
     const saveData = useSaveLocalStorageData();
     const getData = useGetFormData();
+    const getDB = useGetFormDB();
+
     const [error, setError] = useState({});
     const [data, setData] = useState({
         "father_name": "",
@@ -21,10 +24,18 @@ const FamilyDetails = ({ next, back }) => {
     })
 
 
-    useEffect(()=>{
-        const presistentData = getData(data);
-        setData(presistentData)
-    },[])
+    useEffect(() => {
+        (async () => {
+            const presistentData = getData(data);
+            const dbData = await getDB(data);
+            
+            if (Object.values(dbData).length < 1) {
+                setData(presistentData)
+            } else {
+                setData(dbData);
+            }
+        })()
+    }, [])
 
     const handleContinue = async () => {
         const newErrors = {};
@@ -85,10 +96,10 @@ const FamilyDetails = ({ next, back }) => {
                         }}
                     >
                         <option value="">Select</option>
-                        <option value="am">Business</option>
-                        <option value="pm">Service</option>
-                        <option value="pm">Profession</option>
-                        <option value="pm">N.a.</option>
+                        <option value="Business">Business</option>
+                        <option value="Service">Service</option>
+                        <option value="Profession">Profession</option>
+                        <option value="N.a.">N.a.</option>
                     </select>
                     {error.father_occupation && <span className='error__text'>This field is required</span>}
                 </div>
@@ -114,11 +125,11 @@ const FamilyDetails = ({ next, back }) => {
                         }}
                     >
                         <option value="">Select</option>
-                        <option value="am">Business</option>
-                        <option value="pm">Service</option>
-                        <option value="pm">Profession</option>
-                        <option value="pm">Homemaker</option>
-                        <option value="pm">N.a.</option>
+                        <option value="Business">Business</option>
+                        <option value="Service">Service</option>
+                        <option value="Profession">Profession</option>
+                        <option value="Homemaker">Homemaker</option>
+                        <option value="N.a.">N.a.</option>
                     </select>
                     {error.mother_occupation && <span className='error__text'>This field is required</span>}
                 </div>
@@ -132,11 +143,11 @@ const FamilyDetails = ({ next, back }) => {
                         }}
                     >
                         <option value="">Select</option>
-                        <option value="am">0</option>
-                        <option value="pm">1</option>
-                        <option value="pm">2</option>
-                        <option value="pm">3</option>
-                        <option value="pm">3+</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="3+">3+</option>
                     </select>
                     {error.no_of_siblings && <span className='error__text'>This field is required</span>}
                 </div>
@@ -162,12 +173,12 @@ const FamilyDetails = ({ next, back }) => {
                         }}
                     >
                         <option value="">Select</option>
-                        <option value="am">Business owners</option>
-                        <option value="pm">Goverment employees</option>
-                        <option value="pm">Private employees</option>
-                        <option value="pm">Self-employed</option>
-                        <option value="pm">Retired</option>
-                        <option value="pm">Others</option>
+                        <option value="Business owners">Business owners</option>
+                        <option value="Goverment employees">Goverment employees</option>
+                        <option value="Private employees">Private employees</option>
+                        <option value="Self-employed">Self-employed</option>
+                        <option value="Retired">Retired</option>
+                        <option value="Others">Others</option>
                     </select>
                     {error.family_background && <span className='error__text'>This field is required</span>}
                 </div>

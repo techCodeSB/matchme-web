@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import 'animate.css';
 import { SbCheckGroup, SbCheckItem } from "../components/SbCheck";
+import Cookies from 'js-cookie';
 
 
 
@@ -32,6 +33,7 @@ const marriedStatus = ["Any", "Never Married", "Divorced", "Widowed"];
 const location = ["Any where", "India", "Abroad"];
 
 const Preferance = ({ next, back }) => {
+    const token = Cookies.get("mm-token")
     const [heightInch, setHeightInch] = useState('');
     const [heightFeet, setHeightFeet] = useState('');
     const [fromAge, setFromAge] = useState();
@@ -41,7 +43,6 @@ const Preferance = ({ next, back }) => {
     const [income, setIncome] = useState('');
     const [maritalStatus, setMaritalStatus] = useState('');
     const [selectRelegion, setSelectedRelegion] = useState([]);
-
 
     const [error, setError] = useState(null);
     const [data, setData] = useState({
@@ -54,6 +55,43 @@ const Preferance = ({ next, back }) => {
         "religion_preference": [],
         "preferred_location": '',
     })
+
+
+    // Get Preferance
+    useEffect(() => {
+        (async () => {
+            try {
+                const URL = `${import.meta.env.VITE_API_URL}/preferance/get`;
+                const req = await fetch(URL, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ token })
+                })
+                const res = await req.json();
+                if (req.status !== 200) {
+                    console.warn("No preferance set");
+                    return;
+                }
+
+                setHeightFeet(res.height_preference.split(".")[0]);
+                setHeightInch(res.height_preference.split(".")[1]);
+                setFromAge(res.age_preference.from);
+                setToAge(res.age_preference.to);
+                setEducation(res.education_preference);
+                setFamilyBg(res.family_background_preference);
+                setIncome(res.personal_income_preference);
+                setMaritalStatus(res.marriage_status_preference);
+                setSelectedRelegion(res.religion_preference);
+
+                setData({...res, update: true});
+
+            } catch (err) {
+                return alert("Something went wrong");
+            }
+        })()
+    }, [])
 
 
     const handleSave = async () => {
@@ -69,6 +107,30 @@ const Preferance = ({ next, back }) => {
         if (newErrors) return;
 
         try {
+            const URL = `${import.meta.env.VITE_API_URL}/preferance/add`;
+            const req = await fetch(URL, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    ...data,
+                    "age_preference": { from: fromAge, to: toAge },
+                    "height_preference": `${heightFeet}.${heightInch}`,
+                    "education_preference": education,
+                    "family_background_preference": familyBg,
+                    "personal_income_preference": income,
+                    "marriage_status_preference": maritalStatus,
+                    "religion_preference": selectRelegion,
+                    "preferred_location": data.preferred_location,
+                    token
+                })
+            })
+            const res = await req.json();
+            if (req.status !== 200) {
+                return alert(res.err);
+            }
+
             next();
 
         } catch (err) {

@@ -3,23 +3,32 @@ import { FaArrowLeft } from 'react-icons/fa6'
 import { SbCheckGroup, SbCheckItem } from '../../components/SbCheck'
 import useSaveLocalStorageData from '../../hooks/useSaveLocalStorageData';
 import useGetFormData from '../../hooks/useGetFormData';
+import useGetFormDB from '../../hooks/useGetFromDB';
 
 
 
 const LifeStyle2 = ({ next, back }) => {
     const saveData = useSaveLocalStorageData();
     const getData = useGetFormData();
+    const getDB = useGetFormDB();
+
     const [error, setError] = useState(null);
     const [data, setData] = useState({ interests: [] })
 
 
 
     useEffect(() => {
-        const presistentData = getData(data);
-        console.log(presistentData)
-        setData(presistentData)
-    }, [])
+        (async () => {
+            const presistentData = getData(data);
+            const dbData = await getDB(data);
 
+            if (Object.values(dbData).length < 1) {
+                setData(presistentData)
+            } else {
+                setData(dbData);
+            }
+        })()
+    }, [])
     const handleContinue = async () => {
         if (data.length < 1) {
             setError(true);

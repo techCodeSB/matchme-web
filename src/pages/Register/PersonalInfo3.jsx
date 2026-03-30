@@ -3,11 +3,15 @@ import { SbRadio, SbRadioGroup } from "../../components/SbRadio";
 import { useEffect, useState } from "react";
 import useSaveLocalStorageData from "../../hooks/useSaveLocalStorageData";
 import useGetFormData from "../../hooks/useGetFormData";
+import useGetFormDB from '../../hooks/useGetFromDB';
+
 
 
 const PersonalInfo3 = ({ next, back }) => {
     const saveData = useSaveLocalStorageData();
     const getData = useGetFormData();
+    const getDB = useGetFormDB();
+
     const [heightFeet, setHeightFeet] = useState(null);
     const [heightInch, setHeightInch] = useState(null);
     const [weight, setWeight] = useState(null);
@@ -29,7 +33,7 @@ const PersonalInfo3 = ({ next, back }) => {
 
 
 
-    useEffect(()=>{
+    useEffect(() => {
         const presistentData = getData(data);
         const [hF, hI] = presistentData.height.split(".");
         const [w, wUnit] = presistentData.weight.split(".");
@@ -39,7 +43,34 @@ const PersonalInfo3 = ({ next, back }) => {
         setWeight(w);
         setWeightUnit(wUnit);
         setData(presistentData)
-    },[])
+    }, [])
+
+    useEffect(() => {
+        (async () => {
+            const presistentData = getData(data);
+            const dbData = await getDB(data);
+
+            if (Object.values(dbData).length < 1) {
+                const [hF, hI] = presistentData.height.split(".");
+                const [w, wUnit] = presistentData.weight.split(".");
+
+                setHeightFeet(hF);
+                setHeightInch(hI);
+                setWeight(w);
+                setWeightUnit(wUnit);
+                setData(presistentData)
+            } else {
+                const [hF, hI] = dbData.height.split(".");
+                const [w, wUnit] = dbData.weight.split(".");
+
+                setHeightFeet(hF);
+                setHeightInch(hI);
+                setWeight(w);
+                setWeightUnit(wUnit);
+                setData(dbData);
+            }
+        })()
+    }, [])
 
 
     useEffect(() => {
@@ -64,13 +95,13 @@ const PersonalInfo3 = ({ next, back }) => {
 
         for (let k of Object.keys(data)) {
             if (data[k] === "") {
-                if(k === "marital_status_from_year" && data['marital_status'] == "never-married") 
+                if (k === "marital_status_from_year" && data['marital_status'] == "never-married")
                     continue
-                if(k === "marital_status_to_year" && data['marital_status'] == "never-married") 
+                if (k === "marital_status_to_year" && data['marital_status'] == "never-married")
                     continue
-                if(k === "do_have_kids" && data['marital_status'] == "never-married") 
+                if (k === "do_have_kids" && data['marital_status'] == "never-married")
                     continue
-                if(k === "should_weight_display_on_profile") 
+                if (k === "should_weight_display_on_profile")
                     continue
 
                 newErrors[k] = true;
@@ -182,7 +213,7 @@ const PersonalInfo3 = ({ next, back }) => {
                 </div>
                 <div className="w-full flex items-center gap-2 text-xs">
                     <input type="checkbox" id="dontProfile"
-                        value={data.should_weight_display_on_profile}
+                        checked={data.should_weight_display_on_profile}
                         onChange={(e) => {
                             setData({ ...data, should_weight_display_on_profile: e.target.checked })
                             setError({ ...error, should_weight_display_on_profile: false });
@@ -199,7 +230,7 @@ const PersonalInfo3 = ({ next, back }) => {
                         onChange={(v) => {
                             setData({ ...data, eating_preferences: v })
                             setError({ ...error, eating_preferences: false });
-                        }} 
+                        }}
                         name="etingPref"
                     >
                         <SbRadio title="Veg" value="veg" />
@@ -266,7 +297,7 @@ const PersonalInfo3 = ({ next, back }) => {
                                     onChange={(v) => {
                                         setData({ ...data, do_have_kids: v })
                                         setError({ ...error, do_have_kids: false });
-                                    }} 
+                                    }}
                                     name="kids"
                                 >
                                     <SbRadio title="Yes" value="Yes" />

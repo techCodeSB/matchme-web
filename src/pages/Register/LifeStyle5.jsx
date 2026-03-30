@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { FaArrowLeft } from 'react-icons/fa6'
 import useSaveLocalStorageData from '../../hooks/useSaveLocalStorageData';
 import useGetFormData from '../../hooks/useGetFormData';
+import useGetFormDB from '../../hooks/useGetFromDB';
 import Cookies from 'js-cookie';
 
 
@@ -10,6 +11,8 @@ const LifeStyle5 = ({ next, back }) => {
     const token = Cookies.get("mm-token")
     const saveData = useSaveLocalStorageData();
     const getData = useGetFormData();
+    const getDB = useGetFormDB();
+
     const [error, setError] = useState({});
     const [data, setData] = useState({
         about_yourself: ''
@@ -18,8 +21,16 @@ const LifeStyle5 = ({ next, back }) => {
 
 
     useEffect(() => {
-        const presistentData = getData(data);
-        setData(presistentData)
+        (async () => {
+            const presistentData = getData(data);
+            const dbData = await getDB(data);
+
+            if (Object.values(dbData).length < 1) {
+                setData(presistentData)
+            } else {
+                setData(dbData);
+            }
+        })()
     }, [])
 
 
@@ -50,7 +61,7 @@ const LifeStyle5 = ({ next, back }) => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({...localData, token})
+                body: JSON.stringify({ ...localData, token })
             })
             const res = await req.json();
             if (req.status !== 200) {

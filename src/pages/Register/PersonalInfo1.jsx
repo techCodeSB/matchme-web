@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import useSaveLocalStorageData from '../../hooks/useSaveLocalStorageData';
 import useGetFormData from '../../hooks/useGetFormData';
+import useGetFormDB from '../../hooks/useGetFromDB';
+
+
 
 const PersonalInfo1 = ({ next }) => {
     const saveData = useSaveLocalStorageData();
     const getData = useGetFormData();
+    const getDB = useGetFormDB();
 
     const [error, setError] = useState({});
     const [data, setData] = useState({
@@ -13,10 +17,21 @@ const PersonalInfo1 = ({ next }) => {
     })
 
 
-    useEffect(()=>{
-        const presistentData = getData(data);
-        setData(presistentData)
-    },[])
+    useEffect(() => {
+        (async () => {
+            const presistentData = getData(data);
+            const dbData = await getDB(data);
+
+            if (Object.values(dbData).length < 1) {
+                setData(presistentData)
+            } else {
+                setData({
+                    ...dbData,
+                    dob: dbData.dob.split("T")[0]
+                });
+            }
+        })()
+    }, [])
 
 
     const handleContinue = async () => {
@@ -34,11 +49,11 @@ const PersonalInfo1 = ({ next }) => {
         }));
         if (Object.keys(newErrors).length > 0) return;
 
-        try{
+        try {
             saveData(data);
             next();
 
-        }catch(err){
+        } catch (err) {
             return alert("Something went wrong");
         }
     }

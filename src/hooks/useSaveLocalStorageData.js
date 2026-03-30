@@ -3,10 +3,10 @@ import { useCallback } from 'react';
 const useSaveLocalStorageData = () => {
     const key = "mmData";
 
-    const saveData = useCallback((data) => {
+    const saveData = useCallback(async (data) => {
         const mmPresistentData = localStorage.getItem(key);
-        
-        if(!mmPresistentData){
+
+        if (!mmPresistentData) {
             localStorage.setItem(key, JSON.stringify(data));
             return;
         }

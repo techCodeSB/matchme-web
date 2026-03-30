@@ -4,11 +4,14 @@ import { FaArrowLeft } from 'react-icons/fa6';
 import { SbCheckGroup, SbCheckItem } from '../../components/SbCheck';
 import useSaveLocalStorageData from '../../hooks/useSaveLocalStorageData';
 import useGetFormData from '../../hooks/useGetFormData';
+import useGetFormDB from '../../hooks/useGetFromDB';
 
 
 const LifeStyle1 = ({ next, back }) => {
     const saveData = useSaveLocalStorageData();
     const getData = useGetFormData();
+    const getDB = useGetFormDB();
+
     const [error, setError] = useState({});
     const [data, setData] = useState({
         'how_often_you_drink': '',
@@ -19,10 +22,18 @@ const LifeStyle1 = ({ next, back }) => {
 
 
 
-    useEffect(()=>{
-        const presistentData = getData(data);
-        setData(presistentData)
-    },[])
+    useEffect(() => {
+        (async () => {
+            const presistentData = getData(data);
+            const dbData = await getDB(data);
+
+            if (Object.values(dbData).length < 1) {
+                setData(presistentData)
+            } else {
+                setData(dbData);
+            }
+        })()
+    }, [])
 
     const handleContinue = async () => {
         const newErrors = {};

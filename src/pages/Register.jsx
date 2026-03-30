@@ -13,6 +13,8 @@ import LifeStyle5 from './Register/LifeStyle5';
 import Gallery from './Gallery';
 import Preferance from './Preferance';
 import Nav from '../components/Nav';
+import { useNavigate } from 'react-router-dom';
+import BottomNav from '../components/BottomNav';
 
 
 
@@ -20,6 +22,7 @@ const Register = () => {
     const [step, setStep] = useState(1);
     const totalSteps = 13;
     const percentage = `${(step / totalSteps) * 100}%`;
+    const navigate = useNavigate();
 
     const nextStep = () => {
         if (step < totalSteps) {
@@ -45,10 +48,10 @@ const Register = () => {
 
 
 
-
     return (
         <>
             <Nav active={2} />
+            <BottomNav active={2}/>
 
             <main className='main relative'>
                 <div className='reg__circle__left'></div>
@@ -94,7 +97,10 @@ const Register = () => {
 
                 {step === 12 && <Gallery next={nextStep} back={prevStep} />}
 
-                {step === 13 && <Preferance back={prevStep} />}
+                {step === 13 && <Preferance back={prevStep} next={()=>{
+                    localStorage.setItem("formStep", 1);
+                    navigate("/");
+                }}/>}
             </main>
         </>
     )

@@ -2,11 +2,14 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import useSaveLocalStorageData from "../../hooks/useSaveLocalStorageData";
 import useGetFormData from "../../hooks/useGetFormData";
+import useGetFormDB from '../../hooks/useGetFromDB';
 
 
 const WorkDetails = ({ next, back }) => {
     const saveData = useSaveLocalStorageData();
     const getData = useGetFormData();
+    const getDB = useGetFormDB();
+
     const [error, setError] = useState({});
     const [data, setData] = useState({
         "nature_of_work": "",
@@ -20,8 +23,16 @@ const WorkDetails = ({ next, back }) => {
 
 
     useEffect(() => {
-        const presistentData = getData(data);
-        setData(presistentData)
+        (async () => {
+            const presistentData = getData(data);
+            const dbData = await getDB(data);
+
+            if (Object.values(dbData).length < 1) {
+                setData(presistentData)
+            } else {
+                setData(dbData);
+            }
+        })()
     }, [])
 
 

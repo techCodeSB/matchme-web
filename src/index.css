@@ -7,10 +7,14 @@ body {
 
 :root {
     --field-color: #e9e8e7b1;
-    --grad-btn: linear-gradient(to right, #740505, #d11717, #740505);
+    --grad-btn: linear-gradient(to right, #1a4646, #C6B27F, #1a4646);
     --primary: #2B6969;
+    --secondary: #C6B27F;
 }
 
+main{
+    z-index: 99999;
+}
 .main {
     width: 100%;
     min-height: calc(100vh - 60px);
@@ -233,6 +237,10 @@ select {
     background-color: var(--primary);
 }
 
+.nav__link svg{
+    color: var(--primary)
+}
+
 .dashboard__main {
     min-height: calc(100vh - 60px);
     @apply w-[90%] lg:w-[70%] mx-auto mt-5 mb-3
@@ -418,6 +426,9 @@ select {
     color: white;
     cursor: pointer;
 }
+.logout__btn:hover{
+    background-color: #3a8f8f;
+}
 
 .profile__field__card{
     width: 100%;
@@ -435,4 +446,24 @@ select {
 }
 .profile__field__card .sub__title{
     font-size: 12px;
+}
+
+.psycho__q{
+    font-size: 25px;
+    color: var(--primary);
+    font-weight: 500;
+}
+.psycho__ans{
+    width: 100%;
+    padding: 10px;
+    border-radius: 30px;
+    background-color: rgb(151, 211, 235);
+    text-align: left;
+    cursor: pointer;
+    font-size: small;
+    @apply hover:bg-blue-200 flex justify-between items-center;
+}
+.psycho__ans.active{
+    background-color: var(--secondary);
+    color: white;
 }
