@@ -45,6 +45,7 @@ const Psychometric = () => {
         const prevObj = answerObj.filter((a) => a.id !== id);
         prevObj.push({
             id: id,
+            question: questions[currentStep].question,
             answer: op.answer,
             option: op
         });
@@ -55,8 +56,14 @@ const Psychometric = () => {
     const submitAnswer = async () => {
         const answerSheet = [];
         answerObj.forEach((a, _) => {
-            answerSheet.push(a.option)
+            let obj = {
+                _id: a.id,
+                question: a.question,
+                options: [a.option]
+            }
+            answerSheet.push(obj)
         })
+
 
         try {
             const URL = `${import.meta.env.VITE_API_URL}/psychometric/add`;
@@ -65,7 +72,7 @@ const Psychometric = () => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ questionAnswer:answerSheet, token })
+                body: JSON.stringify({ questionAnswer: answerSheet, token })
             })
             const res = await req.json();
             if (req.status !== 200) {
@@ -86,8 +93,6 @@ const Psychometric = () => {
     return (
         <>
             <Nav active={3} />
-			<BottomNav active={3}/>
-
             <main className='main pt-5'>
                 <div className='reg__circle__left'></div>
                 {
@@ -154,6 +159,7 @@ const Psychometric = () => {
                 }
 
             </main>
+			<BottomNav active={3} />
         </>
     )
 }

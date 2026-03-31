@@ -4,6 +4,7 @@ import { MdOutlineAddAPhoto } from "react-icons/md";
 import { RiAddLine } from "react-icons/ri";
 import Cookies from 'js-cookie';
 import useGetFormDB from '../hooks/useGetFromDB';
+import Loading from "../components/Loading";
 
 
 const Gallery = ({ next, back }) => {
@@ -16,6 +17,7 @@ const Gallery = ({ next, back }) => {
         one: "", two: "", three: "", four: '', five: "", six: ''
     })
     const formDataRef = useRef(new FormData());
+    const [loading, setLoading] = useState(false);
 
 
 
@@ -36,10 +38,46 @@ const Gallery = ({ next, back }) => {
     }, [])
 
     const handleUpload = async (which) => {
-        const [fileHandle] = await window.showOpenFilePicker();
-        const file = await fileHandle.getFile();
-        const fileType = file.type.split("/")[1];
+        let file;
 
+        if (window.showOpenFilePicker) {
+            const [fileHandle] = await window.showOpenFilePicker();
+            file = await fileHandle.getFile();
+        } else {
+            const input = document.createElement("input");
+            input.type = "file";
+            input.accept = "image/png, image/jpeg";
+
+            input.onchange = async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const fileType = file.type.split("/")[1];
+
+                if (!selectedType.includes(fileType)) {
+                    alert("Invalid file type Allow:[jpg, png, jpeg] only");
+                    return;
+                }
+
+                formDataRef.current.append(which, file);
+
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    const allData = { ...data };
+                    allData[which] = reader.result;
+
+                    setData({ ...allData });
+                    setError(false);
+                };
+            };
+
+            input.click();
+            return;
+        }
+
+
+        const fileType = file.type.split("/")[1];
         if (!selectedType.includes(fileType)) {
             alert("Invalid file type Allow:[jpg, png, jpeg] only");
             return;
@@ -75,11 +113,13 @@ const Gallery = ({ next, back }) => {
         if (newErrors) return;
 
         try {
+            console.log("run....")
             // If no new files uploaded skip API call
             if (![...formDataRef.current.keys()].length) {
                 return next();
             }
 
+            setLoading(true);
             const URL = `${import.meta.env.VITE_API_URL}/users/upload`;
             formDataRef.current.append("token", token.toString());
             const req = await fetch(URL, {
@@ -95,6 +135,8 @@ const Gallery = ({ next, back }) => {
 
         } catch (err) {
             return alert("Something went wrong");
+        }finally{
+            setLoading(false);
         }
     }
 
@@ -141,8 +183,8 @@ const Gallery = ({ next, back }) => {
                     <FaArrowLeft className="inline mr-1" />
                     Back
                 </button>
-                <button className='grad__btn' onClick={handleContinue}>
-                    Continue
+                <button className='grad__btn flex items-center gap-2' onClick={handleContinue}>
+                    Continue {loading && <Loading/>}
                 </button>
             </div>
         </>

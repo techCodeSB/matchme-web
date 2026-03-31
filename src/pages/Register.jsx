@@ -51,7 +51,6 @@ const Register = () => {
     return (
         <>
             <Nav active={2} />
-            <BottomNav active={2}/>
 
             <main className='main relative'>
                 <div className='reg__circle__left'></div>
@@ -102,6 +101,8 @@ const Register = () => {
                     navigate("/");
                 }}/>}
             </main>
+            
+            <BottomNav active={2}/>
         </>
     )
 }

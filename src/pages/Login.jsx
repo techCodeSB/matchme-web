@@ -3,16 +3,55 @@ import { FaArrowRight } from "react-icons/fa6";
 import LoginNav from "../components/LoginNav";
 import Loading from "../components/Loading";
 import Cookies from 'js-cookie';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 
 const Login = () => {
+    const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const [error, setError] = useState({});
     const [resErr, setResErr] = useState(null);
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({ username: "", password: "" });
 
+
+    // Login using URL token;
+    useEffect(() => {
+        (async () => {
+            const token = searchParams.get("token");
+            let hashId = searchParams.get("d");
+            let userId = atob(hashId);
+
+            if (!token || !hashId) return;
+
+            try {
+                const URL = `${import.meta.env.VITE_API_URL}/users/login`;
+                const req = await fetch(URL, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        hashToken: token,
+                        hashUserId: userId
+                    })
+                })
+                const res = await req.json();
+
+                if (req.status !== 200) {
+                    setResErr(res.err);
+                    return;
+                }
+
+                Cookies.set("mm-token", res.token);
+                navigate("/");
+
+            } catch (err) {
+                alert("Something went wrong")
+            }
+
+        })()
+    }, [searchParams])
 
 
     useEffect(() => {
@@ -24,6 +63,7 @@ const Login = () => {
             clearTimeout(timer);
         };
     }, [resErr]);
+
 
     const submitData = async (e) => {
         e.preventDefault();
@@ -58,7 +98,7 @@ const Login = () => {
             })
             const res = await req.json();
 
-            if(req.status !== 200){
+            if (req.status !== 200) {
                 setResErr(res.err);
                 return;
             }
@@ -69,11 +109,12 @@ const Login = () => {
         } catch (err) {
             setResErr("Something went wrong");
             return;
-        }finally{
+        } finally {
             setLoading(false);
         }
     }
 
+    
     return (
         <>
             <LoginNav />

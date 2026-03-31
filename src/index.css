@@ -12,9 +12,10 @@ body {
     --secondary: #C6B27F;
 }
 
-main{
+main {
     z-index: 99999;
 }
+
 .main {
     width: 100%;
     min-height: calc(100vh - 60px);
@@ -187,8 +188,8 @@ select {
         transform: translate(40px, 60px);
     }
 
-    70%{
-       transform: translate(-10px, 80px); 
+    70% {
+        transform: translate(-10px, 80px);
     }
 
     100% {
@@ -237,7 +238,7 @@ select {
     background-color: var(--primary);
 }
 
-.nav__link svg{
+.nav__link svg {
     color: var(--primary)
 }
 
@@ -426,11 +427,12 @@ select {
     color: white;
     cursor: pointer;
 }
-.logout__btn:hover{
+
+.logout__btn:hover {
     background-color: #3a8f8f;
 }
 
-.profile__field__card{
+.profile__field__card {
     width: 100%;
     padding: 2px 10px;
     color: rgb(39, 39, 39);
@@ -439,21 +441,24 @@ select {
     background-color: white;
     box-shadow: 0px 0px 5px lightgray;
 }
-.profile__field__card .title{
+
+.profile__field__card .title {
     font-size: 14px;
     font-weight: 500;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-.profile__field__card .sub__title{
+
+.profile__field__card .sub__title {
     font-size: 12px;
 }
 
-.psycho__q{
+.psycho__q {
     font-size: 25px;
     color: var(--primary);
     font-weight: 500;
 }
-.psycho__ans{
+
+.psycho__ans {
     width: 100%;
     padding: 10px;
     border-radius: 30px;
@@ -463,7 +468,27 @@ select {
     font-size: small;
     @apply hover:bg-blue-200 flex justify-between items-center;
 }
-.psycho__ans.active{
+
+.psycho__ans.active {
     background-color: var(--secondary);
     color: white;
+}
+
+.shimmer {
+    background: linear-gradient(90deg,
+            #e5e7eb 25%,
+            #f3f4f6 37%,
+            #e5e7eb 63%);
+    background-size: 800px 100%;
+    animation: shimmer 1.4s infinite linear;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -400px 0;
+    }
+
+    100% {
+        background-position: 400px 0;
+    }
 }

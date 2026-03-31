@@ -8,7 +8,9 @@ const Nav = ({ active }) => {
     const token = Cookies.get("mm-token");
     const navigate = useNavigate();
     const [profileImg, setProfileImg] = useState(null);
+    const [psychometricDone, setPsychometricDone] = useState(false);
 
+    
     useEffect(() => {
         (async () => {
             try {
@@ -18,13 +20,17 @@ const Nav = ({ active }) => {
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ token, fieldsArr: ['image'] })
+                    body: JSON.stringify({ token, fieldsArr: ['image', 'psychometric_test'] })
                 })
                 const res = await req.json();
                 if (req.status !== 200) {
                     if (token) alert(res.err);
                 }
-                setProfileImg(`${import.meta.env.VITE_API_URL}/users/upload/${res?.image?.one}`)
+
+                if(res?.image?.one)
+                    setProfileImg(`${import.meta.env.VITE_API_URL}/users/upload/${res?.image?.one}`)
+                
+                setPsychometricDone(res?.psychometric_test)
 
             } catch (err) {
                 alert("Something went wrong");
@@ -51,9 +57,13 @@ const Nav = ({ active }) => {
                     <Link to={"/edit-profile"} className={`nav__link ${active === 2 ? 'active' : ''}`}>
                         Edit Profile
                     </Link>
-                    <Link to={"/psychometric-test"} className={`nav__link ${active === 3 ? 'active' : ''}`}>
-                        Psychometric Test
-                    </Link>
+                    {
+                        !psychometricDone && (
+                            <Link to={"/psychometric-test"} className={`nav__link ${active === 3 ? 'active' : ''}`}>
+                                Psychometric Test
+                            </Link>
+                        )
+                    }
                 </div>
                 <div className='flex items-center gap-4'>
                     <button className='logout__btn' onClick={logout}>
@@ -62,7 +72,7 @@ const Nav = ({ active }) => {
                     <div className='hidden lg:block'>
                         {
                             profileImg ?
-                                <img src={profileImg} 
+                                <img src={profileImg}
                                     className='h-10 w-10 rounded-full border-2 border-gray-400'
                                 />
                                 : <FaCircleUser size={30} color='lightgrey' />
