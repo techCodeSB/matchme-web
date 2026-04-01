@@ -8,8 +8,8 @@ body {
 :root {
     --field-color: #e9e8e7b1;
     --grad-btn: linear-gradient(to right, #1a4646, #C6B27F, #1a4646);
-    --primary: #2B6969;
-    --secondary: #C6B27F;
+    --primary-color: #2B6969;
+    --secondary-color: #C6B27F;
 }
 
 main {
@@ -223,7 +223,7 @@ select {
 /* =============================================================================== */
 .nav__link.active {
     position: relative;
-    color: var(--primary);
+    color: var(--primary-color);
     font-weight: 600;
 }
 
@@ -235,11 +235,11 @@ select {
     width: 100%;
     height: 2px;
     border-radius: 3px;
-    background-color: var(--primary);
+    background-color: var(--primary-color);
 }
 
 .nav__link svg {
-    color: var(--primary)
+    color: var(--primary-color)
 }
 
 .dashboard__main {
@@ -253,11 +253,11 @@ select {
 }
 
 .dashboard__admin__choice {
-    background-color: var(--primary);
+    background-color: var(--primary-color);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    @apply px-10 py-12.5 w-full lg:w-[30%] rounded-[30px] min-h-[380px]
+    @apply px-10 py-12.5 w-full lg:w-[30%] rounded-[30px] min-h-95;
 }
 
 .badge {
@@ -423,7 +423,7 @@ select {
     font-size: 12px;
     padding: 5px 10px;
     border-radius: 5px;
-    background-color: var(--primary);
+    background-color: var(--primary-color);
     color: white;
     cursor: pointer;
 }
@@ -454,7 +454,7 @@ select {
 
 .psycho__q {
     font-size: 25px;
-    color: var(--primary);
+    color: var(--primary-color);
     font-weight: 500;
 }
 
@@ -470,7 +470,7 @@ select {
 }
 
 .psycho__ans.active {
-    background-color: var(--secondary);
+    background-color: var(--secondary-color);
     color: white;
 }
 

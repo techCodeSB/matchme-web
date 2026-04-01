@@ -161,24 +161,35 @@ const PersonalInfo3 = ({ next, back }) => {
                     <p>Enter Your Height</p>
                     <div className="flex items-center gap-4">
                         <div className='input__field w-full'>
-                            <input type="text"
-                                placeholder='Feet'
+                            <select
                                 value={heightFeet}
                                 onChange={(e) => {
                                     setHeightFeet(e.target.value);
                                     setError({ ...error, height: false });
                                 }}
-                            />
+                            >
+                                <option value="">Feet</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                            </select>
                         </div>
                         <div className='input__field w-full'>
-                            <input type="text"
-                                placeholder='Inch'
+                            <select
                                 value={heightInch}
                                 onChange={(e) => {
                                     setHeightInch(e.target.value);
                                     setError({ ...error, height: false });
                                 }}
-                            />
+                            >
+                                <option value="">Inch</option>
+                                {Array.from({ length: 12 }, (_, i) => (
+                                    <option key={i} value={i}>
+                                        {i}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                     </div>
                     {error.height && <span className='error__text'>This field is required</span>}

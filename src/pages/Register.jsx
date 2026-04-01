@@ -15,12 +15,15 @@ import Preferance from './Preferance';
 import Nav from '../components/Nav';
 import { useNavigate } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
+import Aggrement from './Aggrement';
+import Cookies from 'js-cookie';
 
 
 
 const Register = () => {
+    const token = Cookies.get("mm-token")
     const [step, setStep] = useState(1);
-    const totalSteps = 13;
+    const totalSteps = 14;
     const percentage = `${(step / totalSteps) * 100}%`;
     const navigate = useNavigate();
 
@@ -35,6 +38,35 @@ const Register = () => {
             setStep(prev => prev - 1);
         }
     };
+
+    // Check Profile Completion Status
+    const checkAndNext = async () => {
+        try {
+            const URL = `${import.meta.env.VITE_API_URL}/users/get`;
+            const req = await fetch(URL, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ token, fieldsArr: ['registration_status'] })
+            })
+            const res = await req.json();
+            if (req.status !== 200) {
+                return alert(res.err);
+            }
+
+            if (res.registration_status === "1") {
+                localStorage.setItem("formStep", 1);
+                navigate("/");
+                return;
+            }
+
+            setStep(prev => prev + 1);
+
+        } catch (err) {
+            return alert("Something went wrong. Please try again.");
+        }
+    }
 
 
     useEffect(() => {
@@ -96,13 +128,15 @@ const Register = () => {
 
                 {step === 12 && <Gallery next={nextStep} back={prevStep} />}
 
-                {step === 13 && <Preferance back={prevStep} next={()=>{
+                {step === 13 && <Preferance next={checkAndNext} back={prevStep} />}
+
+                {step === 14 && <Aggrement back={prevStep} next={() => {
                     localStorage.setItem("formStep", 1);
                     navigate("/");
-                }}/>}
+                }} />}
             </main>
-            
-            <BottomNav active={2}/>
+
+            <BottomNav active={2} />
         </>
     )
 }

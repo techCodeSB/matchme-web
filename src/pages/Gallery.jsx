@@ -37,6 +37,7 @@ const Gallery = ({ next, back }) => {
         })()
     }, [])
 
+    
     const handleUpload = async (which) => {
         let file;
 
@@ -113,7 +114,6 @@ const Gallery = ({ next, back }) => {
         if (newErrors) return;
 
         try {
-            console.log("run....")
             // If no new files uploaded skip API call
             if (![...formDataRef.current.keys()].length) {
                 return next();

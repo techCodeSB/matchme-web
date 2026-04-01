@@ -4,6 +4,8 @@ import LoginNav from "../components/LoginNav";
 import Loading from "../components/Loading";
 import Cookies from 'js-cookie';
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { GoEyeClosed } from "react-icons/go";
+import { FiEye } from "react-icons/fi";
 
 
 const Login = () => {
@@ -13,6 +15,7 @@ const Login = () => {
     const [resErr, setResErr] = useState(null);
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState({ username: "", password: "" });
+    const [showPass, setShowPass] = useState(false);
 
 
     // Login using URL token;
@@ -114,7 +117,7 @@ const Login = () => {
         }
     }
 
-    
+
     return (
         <>
             <LoginNav />
@@ -154,14 +157,23 @@ const Login = () => {
                             </div>
                             <div className='input__field mt-4'>
                                 <p>Password</p>
-                                <input type="password"
-                                    placeholder='Enter Password'
-                                    value={data.password}
-                                    onChange={(e) => {
-                                        setData({ ...data, password: e.target.value });
-                                        setError({ ...error, password: false });
-                                    }}
-                                />
+                                <div className="relative">
+                                    <input
+                                        type={!showPass ? "password" : "text"}
+                                        placeholder='Enter Password'
+                                        value={data.password}
+                                        onChange={(e) => {
+                                            setData({ ...data, password: e.target.value });
+                                            setError({ ...error, password: false });
+                                        }}
+                                    />
+                                    <div
+                                        onClick={() => setShowPass(!showPass)}
+                                        className="absolute right-1.5 top-1.5 w-7 h-7 bg-gray-200 hover:bg-gray-300 rounded-full flex items-center justify-center cursor-pointer">
+                                        {!showPass ? <GoEyeClosed /> : <FiEye />}
+                                    </div>
+
+                                </div>
                                 {error.password && <span className='error__text'>This field is required</span>}
                             </div>
                             <button className='grad__btn mt-5'>

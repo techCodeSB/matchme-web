@@ -61,7 +61,7 @@ const LifeStyle5 = ({ next, back }) => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ ...localData, token, registration_status: "1" })
+                body: JSON.stringify({ ...localData, token })
             })
             const res = await req.json();
             if (req.status !== 200) {
