@@ -18,7 +18,8 @@ const WorkDetails = ({ next, back }) => {
         "designation": "",
         "personal_anual_income": "",
         "business_turnover": "",
-        "business_website": ""
+        "business_website": "",
+        "details_of_passed_work": ""
     })
 
 
@@ -42,6 +43,8 @@ const WorkDetails = ({ next, back }) => {
         for (let k of Object.keys(data)) {
             if (data[k] === "") {
                 if ((k === "business_turnover" || k === "business_website") && data['nature_of_work'] !== "Business")
+                    continue
+                if (k === "details_of_passed_work"  && data['nature_of_work'] !== "Retired")
                     continue
 
                 newErrors[k] = true;
@@ -88,9 +91,26 @@ const WorkDetails = ({ next, back }) => {
                         <option value="Business">Business</option>
                         <option value="Service">Service</option>
                         <option value="Profession">Profession</option>
+                        <option value="Retired">Retired</option>
                     </select>
                     {error.nature_of_work && <span className='error__text'>This field is required</span>}
                 </div>
+                {
+                    data.nature_of_work === "Retired" && (
+                        <div className='input__field'>
+                            <p>Details of passed work</p>
+                            <input type="text"
+                                placeholder="Enter Details"
+                                value={data.details_of_passed_work}
+                                onChange={(e) => {
+                                    setData({ ...data, details_of_passed_work: e.target.value });
+                                    setError({ ...error, details_of_passed_work: false });
+                                }}
+                            />
+                            {error.details_of_passed_work && <span className='error__text'>This field is required</span>}
+                        </div>
+                    )
+                }
                 <div className='input__field'>
                     <p>Industry</p>
                     <input type="text"
@@ -103,30 +123,36 @@ const WorkDetails = ({ next, back }) => {
                     />
                     {error.industry && <span className='error__text'>This field is required</span>}
                 </div>
-                <div className='input__field'>
-                    <p>Organization</p>
-                    <input type="text"
-                        placeholder="Enter Organization"
-                        value={data.organization}
-                        onChange={(e) => {
-                            setData({ ...data, organization: e.target.value });
-                            setError({ ...error, organization: false });
-                        }}
-                    />
-                    {error.organization && <span className='error__text'>This field is required</span>}
-                </div>
-                <div className='input__field'>
-                    <p>Your Designation</p>
-                    <input type="text"
-                        placeholder="Enter Your Your Designation"
-                        value={data.designation}
-                        onChange={(e) => {
-                            setData({ ...data, designation: e.target.value });
-                            setError({ ...error, designation: false });
-                        }}
-                    />
-                    {error.designation && <span className='error__text'>This field is required</span>}
-                </div>
+                {
+                    data.nature_of_work !== "Retired" && (
+                        <>
+                            <div className='input__field'>
+                                <p>Organization</p>
+                                <input type="text"
+                                    placeholder="Enter Organization"
+                                    value={data.organization}
+                                    onChange={(e) => {
+                                        setData({ ...data, organization: e.target.value });
+                                        setError({ ...error, organization: false });
+                                    }}
+                                />
+                                {error.organization && <span className='error__text'>This field is required</span>}
+                            </div>
+                            <div className='input__field'>
+                                <p>Your Designation</p>
+                                <input type="text"
+                                    placeholder="Enter Your Your Designation"
+                                    value={data.designation}
+                                    onChange={(e) => {
+                                        setData({ ...data, designation: e.target.value });
+                                        setError({ ...error, designation: false });
+                                    }}
+                                />
+                                {error.designation && <span className='error__text'>This field is required</span>}
+                            </div>
+                        </>
+                    )
+                }
                 <div className='input__field'>
                     <p>Personal Anual Income</p>
                     <select

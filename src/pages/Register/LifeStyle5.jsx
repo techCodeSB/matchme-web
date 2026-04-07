@@ -89,7 +89,7 @@ const LifeStyle5 = ({ next, back }) => {
                 <h1 className='reg__title'>Life Style</h1>
 
                 <div className='input__field mt-3'>
-                    <p>Please write a bride introduction</p>
+                    <p>Please write a brief introduction</p>
                     <textarea
                         rows={5}
                         placeholder='Enter Introduction'

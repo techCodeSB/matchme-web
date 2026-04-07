@@ -50,6 +50,8 @@ const PersonalInfo3 = ({ next, back }) => {
             const presistentData = getData(data);
             const dbData = await getDB(data);
 
+            console.log(dbData);
+
             if (Object.values(dbData).length < 1) {
                 const [hF, hI] = presistentData.height.split(".");
                 const [w, wUnit] = presistentData.weight.split(".");
@@ -203,6 +205,9 @@ const PersonalInfo3 = ({ next, back }) => {
                                 placeholder='Weight'
                                 value={weight}
                                 onChange={(e) => {
+                                    const value = Number(e.target.value);
+                                    if (!Number.isInteger(value)) return;
+
                                     setWeight(e.target.value);
                                     setError({ ...error, weight: false });
                                 }}
@@ -280,7 +285,7 @@ const PersonalInfo3 = ({ next, back }) => {
                                 <div className='input__field w-full'>
                                     <p>Select From</p>
                                     <input type="month"
-                                        value={data.marital_status_from_year}
+                                        value={data.marital_status_from_year?.slice(0, 7) || ""}
                                         onChange={(e) => {
                                             setData({ ...data, marital_status_from_year: e.target.value })
                                             setError({ ...error, marital_status_from_year: false });
@@ -291,7 +296,7 @@ const PersonalInfo3 = ({ next, back }) => {
                                 <div className='input__field w-full'>
                                     <p>Select To</p>
                                     <input type="month"
-                                        value={data.marital_status_to_year}
+                                        value={data.marital_status_to_year?.slice(0, 7) || ""}
                                         onChange={(e) => {
                                             setData({ ...data, marital_status_to_year: e.target.value })
                                             setError({ ...error, marital_status_to_year: false });

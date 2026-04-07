@@ -98,7 +98,6 @@ const Aggrement = ({ next, back }) => {
                 body: JSON.stringify({ file: uploadedFile, token })
             });
             const res = await req.json();
-            console.log(res)
             if (req.status !== 200) {
                 return alert(res.err || "Failed to upload the agreement. Please try again.");
             }

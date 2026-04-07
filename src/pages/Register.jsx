@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
 import Aggrement from './Aggrement';
 import Cookies from 'js-cookie';
+import TermsAndCondition from './TermsAndCondition';
 
 
 
@@ -130,7 +131,7 @@ const Register = () => {
 
                 {step === 13 && <Preferance next={checkAndNext} back={prevStep} />}
 
-                {step === 14 && <Aggrement back={prevStep} next={() => {
+                {step === 14 && <TermsAndCondition back={prevStep} next={() => {
                     localStorage.setItem("formStep", 1);
                     navigate("/");
                 }} />}

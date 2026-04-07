@@ -106,6 +106,7 @@ const Psychometric = () => {
                         </section>
                     ) : (
                         <section className='z-50 w-[90%] md:w-[40%] flex flex-col items-center text-left lg:items-stretch gap-2 p-4 bg-white shadow-2xl rounded-xl'>
+                            <p className='text-right text-xs'>{currentStep + 1}/{questions.length}</p>
                             <h1 className='psycho__q'>{questions[currentStep]?.question}</h1>
                             <div className='w-full mt-5 flex flex-col gap-2'>
                                 {
@@ -145,10 +146,21 @@ const Psychometric = () => {
 
                                 <button
                                     onClick={() => {
-                                        if ((questions.length - 1) === currentStep) {
-                                            submitAnswer()
+                                        const currentQuestionId = questions[currentStep]?._id;
+
+                                        const isAnswered = answerObj.find(
+                                            (a) => a.id === currentQuestionId
+                                        );
+
+                                        if (!isAnswered) {
+                                            return alert("Please choose an option");
                                         }
-                                        setCurrentStep(currentStep + 1)
+
+                                        if ((questions.length - 1) === currentStep) {
+                                            submitAnswer();
+                                        } else {
+                                            setCurrentStep(currentStep + 1);
+                                        }
                                     }}
                                     className='w-full rounded-full p-2 bg-[#2B6969] hover:bg-[#2d8181] text-white text-sm cursor-pointer'>
                                     Next
@@ -159,7 +171,7 @@ const Psychometric = () => {
                 }
 
             </main>
-			<BottomNav active={3} />
+            <BottomNav active={3} />
         </>
     )
 }

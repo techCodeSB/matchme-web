@@ -34,14 +34,14 @@ const location = ["Any where", "India", "Abroad"];
 
 const Preferance = ({ next, back }) => {
     const token = Cookies.get("mm-token")
-    const [heightInch, setHeightInch] = useState('');
-    const [heightFeet, setHeightFeet] = useState('');
-    const [fromAge, setFromAge] = useState();
-    const [toAge, setToAge] = useState();
-    const [education, setEducation] = useState('');
-    const [familyBg, setFamilyBg] = useState('');
+    const [heightFeet, setHeightFeet] = useState('5');
+    const [heightInch, setHeightInch] = useState('2');
+    const [fromAge, setFromAge] = useState('55');
+    const [toAge, setToAge] = useState('75');
+    const [education, setEducation] = useState('Any');
+    const [familyBg, setFamilyBg] = useState('Any');
     const [income, setIncome] = useState('');
-    const [maritalStatus, setMaritalStatus] = useState('');
+    const [maritalStatus, setMaritalStatus] = useState('Any');
     const [selectRelegion, setSelectedRelegion] = useState([]);
 
     const [error, setError] = useState(null);
@@ -53,7 +53,7 @@ const Preferance = ({ next, back }) => {
         "personal_income_preference": '',
         "marriage_status_preference": '',
         "religion_preference": [],
-        "preferred_location": '',
+        "preferred_location": 'Any',
     })
 
 
@@ -166,7 +166,7 @@ const Preferance = ({ next, back }) => {
                         >
                             <option value="">Select</option>
                             {
-                                Array.from({ length: 24 }, (_, index) => index + 21).map((item, index) => {
+                                Array.from({ length: 57 }, (_, index) => index + 21).map((item, index) => {
                                     return (
                                         <option value={item} key={item}>{item}</option>
                                     )
@@ -181,7 +181,7 @@ const Preferance = ({ next, back }) => {
                         >
                             <option value="" >Select</option>
                             {
-                                Array.from({ length: 24 }, (_, index) => index + 21).map((item, index) => {
+                                Array.from({ length: 57 }, (_, index) => index + 21).map((item, index) => {
                                     return (
                                         <option value={item} key={item}>{item}</option>
                                     )

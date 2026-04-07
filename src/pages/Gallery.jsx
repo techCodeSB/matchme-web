@@ -37,7 +37,7 @@ const Gallery = ({ next, back }) => {
         })()
     }, [])
 
-    
+
     const handleUpload = async (which) => {
         let file;
 
@@ -104,12 +104,18 @@ const Gallery = ({ next, back }) => {
     const handleContinue = async () => {
         let newErrors = false;
 
-        Object.keys(data).map((k, i) => {
-            if (data[k] === "" && k !== "six") {
-                newErrors = true;
-                return;
-            }
-        })
+        // * Check first - five fields;
+        // Object.keys(data).map((k, i) => {
+        //     if (data[k] === "" && k !== "six") {
+        //         newErrors = true;
+        //         return;
+        //     }
+        // })
+
+        // * Check only first fields;
+        if (data['one'] === "" || !data['one']) {
+            newErrors = true;
+        }
         setError(newErrors);
         if (newErrors) return;
 
@@ -135,7 +141,7 @@ const Gallery = ({ next, back }) => {
 
         } catch (err) {
             return alert("Something went wrong");
-        }finally{
+        } finally {
             setLoading(false);
         }
     }
@@ -144,7 +150,7 @@ const Gallery = ({ next, back }) => {
         <>
             <h1 className="text-2xl font-bold mt-4">Your Gallery</h1>
             <p className="text-xs w-62.5 lg:w-full text-center">A glimpse into your world. Please upload 5 photos that capture your true self.</p>
-            {error && <span className='error__text mt-2'>Please upload all photos</span>}
+            {error && <span className='error__text mt-2'>Please upload Main Portrait photo</span>}
 
             <div className='w-[80%] md:w-[50%] flex flex-col lg:flex-row items-center gap-4 overflow-hidden p-4 animate-slide-in mt-5'>
                 <div className="main__photo relative" onClick={() => handleUpload('one')}>
@@ -184,7 +190,7 @@ const Gallery = ({ next, back }) => {
                     Back
                 </button>
                 <button className='grad__btn flex items-center gap-2' onClick={handleContinue}>
-                    Continue {loading && <Loading/>}
+                    Continue {loading && <Loading />}
                 </button>
             </div>
         </>
